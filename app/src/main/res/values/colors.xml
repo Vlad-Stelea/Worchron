@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="background">#E0E0FF</color>
+    <color name="textColor">#000060</color>
+    <color name="addWorkoutBackDefault">#1A40D8</color>
+    <color name="action_bar_color">#776ED1</color>
 </resources>
