@@ -1,15 +1,18 @@
 package backend;
 
-import java.util.ArrayList;
+
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Represents a workout which is a collection of exercises
  */
-public class Workout {
+public class Workout implements Serializable{
     //The name of the workout eg. Cardio, Leg day etc.
     private String mName;
-    //List of all the exercises which will happen in this exercise
-    private ArrayList<Exercise> exercises;
+    //The location where this workout will be saved
+    private List<WorkoutExercise> mQueue;
 
     /**
      * Initializes a workout object
@@ -17,22 +20,8 @@ public class Workout {
      */
     public Workout(String name){
         this.mName = name;
-        exercises = new ArrayList<>();
+        mQueue = new LinkedList<>();
     }
 
-    /**
-     *
-     * @return the name that will be displayed when selecting a workout
-     */
-    public String toString(){
-        return mName;
-    }
 
-    /**
-     * gets the list of exercises in this workout
-     * @return what exercise this workout contains
-     */
-    public ArrayList<Exercise> getExercises() {
-        return exercises;
-    }
 }
