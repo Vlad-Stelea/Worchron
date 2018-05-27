@@ -1,4 +1,4 @@
-package backend;
+package vlad.backend;
 
 /**
  * Represents an Exercise that has to last for a certain amount of time

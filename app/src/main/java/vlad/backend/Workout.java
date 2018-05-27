@@ -1,4 +1,4 @@
-package backend;
+package vlad.backend;
 
 
 import java.io.Serializable;
@@ -23,5 +23,12 @@ public class Workout implements Serializable{
         mQueue = new LinkedList<>();
     }
 
+    /**
+     * gets the name of the workout
+     * @return the name of the workout object
+     */
+    public String getName(){
+        return mName;
+    }
 
 }

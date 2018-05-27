@@ -33,15 +33,15 @@ public class WorkoutDAO {
      * @param context  The context of the activity or fragment calling this method
      * @return a list of workouts
      */
-    public static List<WorkoutPreview> loadAllWorkoutPreviews(Context context){
-        File workoutDir = new File(context.getFilesDir().toString() + WORKOUT_SAVE_DIRECTORY);
+    public static WorkoutPreview[] loadAllWorkoutPreviews(Context context){
+        File workoutDir = new File(context.getFilesDir().toString());
         String [] workouts = workoutDir.list();
         List<WorkoutPreview>  workoutPreviews= new LinkedList<>();
         for(int i = 0; i < workouts.length; i++){
             workoutPreviews.add(new WorkoutPreview(workouts[i].
                     substring(0,workouts[i].length() - 4)));
         }
-        return workoutPreviews;
+        return workoutPreviews.toArray(new WorkoutPreview[0]);
     }
 
     /** TODO test

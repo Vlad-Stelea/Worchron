@@ -1,6 +1,4 @@
-package backend;
-
-import android.support.annotation.Nullable;
+package vlad.backend;
 
 /**
  * Class that represents an exercise that is done in reps eg. curls, pushups

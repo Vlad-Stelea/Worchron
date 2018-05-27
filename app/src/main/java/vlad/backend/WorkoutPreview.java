@@ -1,5 +1,8 @@
 package vlad.backend;
 
+/**
+ * Represents a preview
+ */
 public class WorkoutPreview {
 
     private String mName;

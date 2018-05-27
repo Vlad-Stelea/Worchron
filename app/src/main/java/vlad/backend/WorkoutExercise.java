@@ -1,4 +1,4 @@
-package backend;
+package vlad.backend;
 
 import java.io.Serializable;
 
