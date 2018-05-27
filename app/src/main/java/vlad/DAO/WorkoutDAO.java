@@ -33,7 +33,8 @@ public class WorkoutDAO {
      * @return a list of workouts
      */
     public static WorkoutPreview[] loadAllWorkoutPreviews(Context context){
-        File workoutDir = new File(context.getFilesDir().toString());
+        File workoutDir = new File(context.getFilesDir().toString() + WORKOUT_SAVE_DIRECTORY);
+        File [] subFiles = workoutDir.listFiles();
         String [] workouts = workoutDir.list();
         List<WorkoutPreview>  workoutPreviews= new LinkedList<>();
         for(int i = 0; i < workouts.length; i++){
@@ -89,9 +90,9 @@ public class WorkoutDAO {
      * Should only be run if the directories are not set up
      * @return whether it successfully created the directories
      */
-    public static boolean initializeDirectory(){
-        boolean workoutDirSuccess = new File(WORKOUT_SAVE_DIRECTORY).mkdir();
-        boolean pictureDirSuccess = new File(WORKOUT_PICTURE_DIRECTORY).mkdir();
+    public static boolean initializeDirectory(Context context){
+        boolean workoutDirSuccess = new File(context.getFilesDir() + WORKOUT_SAVE_DIRECTORY).mkdir();
+        boolean pictureDirSuccess = new File(context.getFilesDir() + WORKOUT_PICTURE_DIRECTORY).mkdir();
         return workoutDirSuccess && pictureDirSuccess;
     }
 }

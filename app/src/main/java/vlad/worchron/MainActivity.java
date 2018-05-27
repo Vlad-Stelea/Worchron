@@ -1,6 +1,8 @@
 package vlad.worchron;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import vlad.DAO.WorkoutDAO;
+
 public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
@@ -19,8 +23,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Set up toolbar for this app
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //Set up folder if it does not exist to store workouts
+        String firstTimeAccessKey = "firstTime";
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!prefs.getBoolean(firstTimeAccessKey,false)){
+            WorkoutDAO.initializeDirectory(this);
+           SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(firstTimeAccessKey, true);
+            editor.commit();
+        }
+        //Set up view pager for tabs
         viewPager = (ViewPager)findViewById(R.id.main_view_pager);
         PagerAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -31,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getColor(R.color.textColor),
                 getResources().getColor(R.color.textColor)
         );
+
     }
     @SuppressLint("RestrictedApi")
     @Override
