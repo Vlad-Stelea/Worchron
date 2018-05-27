@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import vlad.backend.Workout;
-import vlad.backend.WorkoutExercise;
 import vlad.backend.WorkoutPreview;
 
 /**

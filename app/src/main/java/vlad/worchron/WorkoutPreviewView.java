@@ -1,9 +1,6 @@
 package vlad.worchron;
 
 import android.content.Context;
-import android.graphics.Outline;
-import android.view.View;
-import android.view.ViewOutlineProvider;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
