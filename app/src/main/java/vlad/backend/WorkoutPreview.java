@@ -1,5 +1,7 @@
 package vlad.backend;
 
+import vlad.DAO.PreviewFactory;
+
 /**
  * Represents a preview
  */
@@ -16,5 +18,13 @@ public class WorkoutPreview {
      */
     public String getName(){
         return mName;
+    }
+
+    public static class WorkoutPreviewFactory implements PreviewFactory<WorkoutPreview>{
+
+        @Override
+        public WorkoutPreview createT(String name) {
+            return new WorkoutPreview(name);
+        }
     }
 }

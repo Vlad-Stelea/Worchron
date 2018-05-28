@@ -34,7 +34,6 @@ public class WorkoutDAO {
      */
     public static WorkoutPreview[] loadAllWorkoutPreviews(Context context){
         File workoutDir = new File(context.getFilesDir().toString() + WORKOUT_SAVE_DIRECTORY);
-        File [] subFiles = workoutDir.listFiles();
         String [] workouts = workoutDir.list();
         List<WorkoutPreview>  workoutPreviews= new LinkedList<>();
         for(int i = 0; i < workouts.length; i++){
@@ -85,7 +84,7 @@ public class WorkoutDAO {
         return true;
     }
 
-    /** TODO test
+    /**
      * Setup the directory for the DAO
      * Should only be run if the directories are not set up
      * @return whether it successfully created the directories
