@@ -13,15 +13,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
+import java.util.List;
+
+import vlad.DAO.GeneralDAO;
 import vlad.DAO.WorkoutDAO;
+import vlad.backend.Workout;
 import vlad.backend.WorkoutPreview;
 
 
 /**
  */
 public class WorkoutsFragment extends Fragment {
-    private final String WORKOUT_PREVIEW_LIST = "workouts";
-
+    private GeneralDAO<Workout, WorkoutPreview> WORKOUT_DAO;
     public WorkoutsFragment() {
         // Required empty public constructor
     }
@@ -50,7 +53,7 @@ public class WorkoutsFragment extends Fragment {
         // Inflate the layout for this
         View view = inflater.inflate(R.layout.fragment_workouts, container, false);
         ListView workoutsList = (ListView) view.findViewById(R.id.workouts_list);
-        WorkoutPreview[] workoutPreviews = WorkoutDAO.loadAllWorkoutPreviews(getContext());
+        List<WorkoutPreview> workoutPreviews = WORKOUT_DAO.loadAllPreviews();
         workoutsList.setAdapter(new WorkoutPreviewAdaptor(getActivity(), 0, workoutPreviews));
         return view;
     }
@@ -59,6 +62,8 @@ public class WorkoutsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        WORKOUT_DAO = new GeneralDAO<Workout, WorkoutPreview>(context,
+                getString(R.string.workout_dir));
     }
 
     @Override
@@ -67,8 +72,8 @@ public class WorkoutsFragment extends Fragment {
     }
 
     private class WorkoutPreviewAdaptor extends ArrayAdapter{
-        private WorkoutPreview [] mWorkoutPreviews;
-        public WorkoutPreviewAdaptor(@NonNull Context context, int resource, WorkoutPreview [] previews) {
+        private List<WorkoutPreview> mWorkoutPreviews;
+        public WorkoutPreviewAdaptor(@NonNull Context context, int resource, List<WorkoutPreview> previews) {
             super(context, resource);
             mWorkoutPreviews = previews;
         }
@@ -85,12 +90,12 @@ public class WorkoutsFragment extends Fragment {
         public View getView(int position,
                             View convertView,
                             ViewGroup parent){
-            return new WorkoutPreviewView(getContext(), mWorkoutPreviews[position]);
+            return new WorkoutPreviewView(getContext(), mWorkoutPreviews.get(position));
 
         }
         @Override
         public int getCount(){
-            return mWorkoutPreviews.length;
+            return mWorkoutPreviews.size();
         }
     }
 

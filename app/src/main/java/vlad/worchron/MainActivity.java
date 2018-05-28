@@ -14,11 +14,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import vlad.DAO.GeneralDAO;
 import vlad.DAO.WorkoutDAO;
 
 public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
+    private GeneralDAO workoutDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +29,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Set up folder if it does not exist to store workouts
+        String WORKOUT_DIR = getString(R.string.workout_dir);
         String firstTimeAccessKey = "firstTime";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        workoutDAO = new GeneralDAO(this, WORKOUT_DIR);
         if(!prefs.getBoolean(firstTimeAccessKey,false)){
-            WorkoutDAO.initializeDirectory(this);
-           SharedPreferences.Editor editor = prefs.edit();
+            workoutDAO.initializeDirectory();
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(firstTimeAccessKey, true);
-            editor.commit();
+            editor.apply();
         }
         //Set up view pager for tabs
         viewPager = (ViewPager)findViewById(R.id.main_view_pager);

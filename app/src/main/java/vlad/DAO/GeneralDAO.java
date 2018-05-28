@@ -28,7 +28,7 @@ public class GeneralDAO<Backend, Preview> {
 
     public GeneralDAO(Context context, String saveDir){
         mSAVE_DIR = new File(context.getFilesDir() + saveDir);
-        mPIC_DIR = new File(saveDir + "pictures");
+        mPIC_DIR = new File(mSAVE_DIR.toString() + "/pictures");
     }
 
     /** TODO test
@@ -60,6 +60,15 @@ public class GeneralDAO<Backend, Preview> {
         return (Backend) ois.readObject();
     }
 
-
+    /**
+     * Setup the directory for the DAO
+     * Should only be run if the directories are not set up
+     * @return whether it successfully created the directories
+     */
+    public boolean initializeDirectory(){
+        boolean workoutDirSuccess = mSAVE_DIR.mkdir();
+        boolean pictureDirSuccess = mPIC_DIR.mkdir();
+        return workoutDirSuccess && pictureDirSuccess;
+    }
 
 }
