@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import vlad.backend.Workout;
+import vlad.Previews.PreviewFactory;
 
 /**
  * Generalized Data Access Object for this project which is responsible for persistance of various classes

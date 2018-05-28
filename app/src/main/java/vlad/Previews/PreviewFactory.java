@@ -1,4 +1,4 @@
-package vlad.DAO;
+package vlad.Previews;
 
 public interface PreviewFactory<T> {
     T createT(String name);

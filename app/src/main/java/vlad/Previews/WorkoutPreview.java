@@ -1,6 +1,4 @@
-package vlad.backend;
-
-import vlad.DAO.PreviewFactory;
+package vlad.Previews;
 
 /**
  * Represents a preview

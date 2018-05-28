@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import vlad.backend.WorkoutPreview;
+import vlad.Previews.WorkoutPreview;
 
 public class WorkoutPreviewView extends LinearLayout {
 

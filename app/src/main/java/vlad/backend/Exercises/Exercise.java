@@ -1,4 +1,4 @@
-package vlad.backend;
+package vlad.backend.Exercises;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

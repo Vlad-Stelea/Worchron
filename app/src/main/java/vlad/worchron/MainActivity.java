@@ -16,11 +16,14 @@ import android.view.Menu;
 
 import vlad.DAO.GeneralDAO;
 import vlad.DAO.WorkoutDAO;
+import vlad.Previews.ExercisePreview;
+import vlad.backend.Exercises.Exercise;
 
 public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    private GeneralDAO workoutDAO;
+    public static GeneralDAO WorkoutDAO;
+    public static GeneralDAO<Exercise, ExercisePreview> ExerciseDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +33,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //Set up folder if it does not exist to store workouts
         String WORKOUT_DIR = getString(R.string.workout_dir);
+        String EXERCISE_DIR = getString(R.string.exercise_dir);
         String firstTimeAccessKey = "firstTime";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        workoutDAO = new GeneralDAO(this, WORKOUT_DIR);
+        WorkoutDAO = new GeneralDAO(this, WORKOUT_DIR);
+        ExerciseDAO = new GeneralDAO<>(this, EXERCISE_DIR);
         if(!prefs.getBoolean(firstTimeAccessKey,false)){
-            workoutDAO.initializeDirectory();
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(firstTimeAccessKey, true);
-            editor.apply();
+            boolean workoutInit = WorkoutDAO.initializeDirectory();
+            boolean exerciseInit = ExerciseDAO.initializeDirectory();
+            if(workoutInit && exerciseInit) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(firstTimeAccessKey, true);
+                editor.apply();
+            }
         }
         //Set up view pager for tabs
         viewPager = (ViewPager)findViewById(R.id.main_view_pager);

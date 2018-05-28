@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import vlad.backend.Workout;
-import vlad.backend.WorkoutPreview;
+import vlad.Previews.WorkoutPreview;
 
 /**
  * A Data access object for workouts saved on the device

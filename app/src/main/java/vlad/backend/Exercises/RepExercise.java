@@ -1,4 +1,6 @@
-package vlad.backend;
+package vlad.backend.Exercises;
+
+import vlad.backend.WorkoutExercise;
 
 /**
  * Class that represents an exercise that is done in reps eg. curls, pushups

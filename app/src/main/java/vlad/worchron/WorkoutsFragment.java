@@ -2,6 +2,7 @@ package vlad.worchron;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,21 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 
 import java.util.List;
 
 import vlad.DAO.GeneralDAO;
-import vlad.DAO.WorkoutDAO;
+
 import vlad.backend.Workout;
-import vlad.backend.WorkoutPreview;
+import vlad.Previews.WorkoutPreview;
 
 
 /**
  */
 public class WorkoutsFragment extends Fragment {
     private GeneralDAO<Workout, WorkoutPreview> WORKOUT_DAO;
+    private static final int CREATE_WORKOUT_REQUEST = 1;
     public WorkoutsFragment() {
         // Required empty public constructor
     }
@@ -52,9 +55,15 @@ public class WorkoutsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this
         View view = inflater.inflate(R.layout.fragment_workouts, container, false);
-        ListView workoutsList = (ListView) view.findViewById(R.id.workouts_list);
+        ListView workoutsList = view.findViewById(R.id.workouts_list);
         List<WorkoutPreview> workoutPreviews = WORKOUT_DAO.loadAllPreviews();
         workoutsList.setAdapter(new WorkoutPreviewAdaptor(getActivity(), 0, workoutPreviews));
+        //Set up button click
+        ImageButton createWorkoutButton = view.findViewById(R.id.add_workout_button);
+        createWorkoutButton.setOnClickListener(v ->{
+            Intent intent = new Intent(getActivity(), CreateWorkout.class);
+            startActivity(intent);
+        });
         return view;
     }
 
@@ -70,6 +79,8 @@ public class WorkoutsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
 
     private class WorkoutPreviewAdaptor extends ArrayAdapter{
         private List<WorkoutPreview> mWorkoutPreviews;
