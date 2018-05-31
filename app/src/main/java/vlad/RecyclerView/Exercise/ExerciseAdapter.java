@@ -11,12 +11,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import vlad.Previews.ExercisePreview;
+import vlad.backend.Exercises.SelectableExercise;
 import vlad.worchron.R;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder>{
-    List<ExercisePreview> mDataSet;
+    List<SelectableExercise> mDataSet;
 
-    public ExerciseAdapter(List<ExercisePreview> dataSet){
+    public ExerciseAdapter(List<SelectableExercise> dataSet){
         mDataSet = dataSet;
     }
 

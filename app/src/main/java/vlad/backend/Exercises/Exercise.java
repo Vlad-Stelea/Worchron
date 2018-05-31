@@ -4,15 +4,18 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "Exercises")
-public class Exercise {
-    @PrimaryKey
-    public int uid;
+import java.io.Serializable;
+
+public class Exercise implements Serializable{
+
     //The name of the exercise eg. Pushup, Pullups, Situps
-    @ColumnInfo(name = "name")
-    public String mName;
+    private String mName;
 
     public Exercise(String name){
         mName = name;
+    }
+
+    public String getName(){
+        return mName;
     }
 }

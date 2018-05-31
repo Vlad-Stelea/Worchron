@@ -4,4 +4,9 @@
     <string name="settings_title">settings</string>
     <string name="workout_dir">/workout</string>
     <string name="exercise_dir">/exercises</string>
+    <string name="new_exercises_hint">Exercise Name</string>
+    <string name="create_exercise_result">createExercise</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -71,8 +71,7 @@ public class WorkoutsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        WORKOUT_DAO = new GeneralDAO<Workout, WorkoutPreview>(context,
-                getString(R.string.workout_dir));
+        WORKOUT_DAO = MainActivity.WorkoutDAO;
     }
 
     @Override

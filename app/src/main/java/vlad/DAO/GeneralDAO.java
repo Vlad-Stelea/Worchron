@@ -1,12 +1,15 @@
 package vlad.DAO;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +27,12 @@ public class GeneralDAO<Backend, Preview> {
     //Directory where the pictures for Backend will be saved
     private final File mPIC_DIR;
     //The factory which will create the preview objects
-    private PreviewFactory<Preview> factory;
+    private PreviewFactory<Preview> mFactory;
 
-    public GeneralDAO(Context context, String saveDir){
+    public GeneralDAO(Context context, String saveDir, PreviewFactory factory){
         mSAVE_DIR = new File(context.getFilesDir() + saveDir);
         mPIC_DIR = new File(mSAVE_DIR.toString() + "/pictures");
+        mFactory =factory;
     }
 
     /** TODO test
@@ -42,7 +46,10 @@ public class GeneralDAO<Backend, Preview> {
         //Start at one to skip pictures.
         //TODO test if directories are at top. If not find other way to avoid pictures directory
         for(int i = 1; i < previews.length; i++){
-            toReturn.add(factory.createT(previews[i]));
+            toReturn.add(mFactory.createT(previews[i].
+                    substring(0,
+                            previews[i].length() -4)
+            ));
         }
         return toReturn;
     }
@@ -58,6 +65,33 @@ public class GeneralDAO<Backend, Preview> {
         FileInputStream fis = new FileInputStream(toLoad);
         ObjectInputStream ois = ois = new ObjectInputStream(fis);
         return (Backend) ois.readObject();
+    }
+
+    public boolean saveBackend(Backend backend, Context context){
+        File saveFile = new File( mSAVE_DIR + "/" + backend.toString() + ".wrk");
+        try {
+            saveFile.createNewFile();
+        } catch (IOException e) {
+            return false;
+        }
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(saveFile);
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(fos);
+        } catch (IOException e) {
+            return false;
+        }
+        try {
+            oos.writeObject(backend);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     /**

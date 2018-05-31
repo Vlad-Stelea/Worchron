@@ -44,4 +44,16 @@ public class RepExercise extends WorkoutExercise {
     public String toString() {
         return null;
     }
+
+    public static class ExerciseStep{
+        private String mName;
+
+        public ExerciseStep(String name){
+            mName = name;
+        }
+
+        public String getName(){
+            return mName;
+        }
+    }
 }

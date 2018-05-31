@@ -18,6 +18,11 @@ public class WorkoutPreview {
         return mName;
     }
 
+    @Override
+    public String toString(){
+        return mName;
+    }
+
     public static class WorkoutPreviewFactory implements PreviewFactory<WorkoutPreview>{
 
         @Override

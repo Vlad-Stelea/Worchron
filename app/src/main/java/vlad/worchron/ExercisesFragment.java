@@ -1,6 +1,7 @@
 package vlad.worchron;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import vlad.DAO.GeneralDAO;
 import vlad.Previews.ExercisePreview;
 import vlad.RecyclerView.Exercise.ExerciseAdapter;
 import vlad.backend.Exercises.Exercise;
+import vlad.backend.Exercises.SelectableExercise;
 
 
 /**
@@ -26,7 +28,7 @@ public class ExercisesFragment extends Fragment {
     private RecyclerView mExercisesView;
     private RecyclerView.Adapter mAdaptor;
     private RecyclerView.LayoutManager mManager;
-    private GeneralDAO<Exercise,ExercisePreview> ExerciseDAO;
+    private GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
 
     public ExercisesFragment() {
         // Required empty public constructor
@@ -60,7 +62,7 @@ public class ExercisesFragment extends Fragment {
         mExercisesView = view.findViewById(R.id.exercises_view);
 
         //Get list of previews using DAO
-        List<ExercisePreview> previews = ExerciseDAO.loadAllPreviews();
+        List<SelectableExercise> previews = ExerciseDAO.loadAllPreviews();
         //content should not change layout size of recycler view
         //mExercisesView.setHasFixedSize(true);
 
@@ -71,6 +73,12 @@ public class ExercisesFragment extends Fragment {
         //Set up adapter
         mAdaptor = new ExerciseAdapter(previews);
         mExercisesView.setAdapter(mAdaptor);
+        //Set up click listener for the add exercise button
+        view.findViewById(R.id.add_exercise_button).setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), CreateExerciseActivity.class);
+            int code = getContext().getResources().getInteger(R.integer.create_exercise_code);
+            getActivity().startActivityForResult(intent, code);
+        });
         return view;
     }
 
