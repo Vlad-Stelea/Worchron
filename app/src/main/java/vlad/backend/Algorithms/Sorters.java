@@ -1,5 +1,6 @@
 package vlad.backend.Algorithms;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Sorters {
         if(left >=right){
             return;
         }
-        int pivot = choosePivot(toSort, left, right);
+        Comparable pivot = choosePivot(toSort, left, right);
         int index = partition(toSort, left, right,pivot);
         if(index> right)
             return;
@@ -69,13 +70,13 @@ public class Sorters {
     }
 
 
-    private static int partition(Comparable[] A, int lo, int hi, Comparable<Integer> pivot){
+    private static int partition(Comparable[] A, int lo, int hi, Comparable pivot){
         while(lo <=hi){
             while(A[lo].compareTo(pivot) < 0){
                 lo++;
             }
 
-            while(A[hi].compareTo(pivot) >= 0){
+            while(A[hi].compareTo(pivot) > 0){
                 hi--;
             }
             if(lo <= hi){
@@ -113,7 +114,7 @@ public class Sorters {
      * @param array the array that will be quicksorted
      * @return the index of the array that will be the pivot
      */
-    private static int choosePivot(Comparable[] array, int left, int right){
-        return right -1;
+    private static Comparable choosePivot(Comparable[] array, int left, int right){
+        return array[right -1];
     }
 }

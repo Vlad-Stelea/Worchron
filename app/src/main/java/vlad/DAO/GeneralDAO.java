@@ -11,12 +11,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import vlad.Previews.PreviewFactory;
 import vlad.backend.Algorithms.Sorters;
+import vlad.backend.Exercises.SelectableExercise;
 
 /**
  * Generalized Data Access Object for this project which is responsible for persistance of various classes
@@ -54,7 +56,7 @@ public class GeneralDAO<Backend, Preview> {
                             previews[i].length() -4)
             ));
         }
-        Sorters.quickSort((List<Comparable>) toReturn);
+        alphabetize(toReturn);
         return toReturn;
     }
 
@@ -112,5 +114,6 @@ public class GeneralDAO<Backend, Preview> {
     private void alphabetize(List toAlphabetize){
         Sorters.quickSort(toAlphabetize);
     }
+
 
 }

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import vlad.backend.Algorithms.Sorters;
+import vlad.backend.Exercises.SelectableExercise;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +32,10 @@ public class SortersTests {
 
     @Test
     public void testQuicksort(){
-        //assertEquals(sortedList, Sorters.quickSort(testList));
+        assertEquals(sortedList, Sorters.quickSort(testList));
+        SelectableExercise t = new SelectableExercise("TEST1");
+        SelectableExercise t2 = new SelectableExercise("Test2");
+        t.compareTo(t2);
         assertEquals(stringSortedList, Sorters.quickSort(stringTestList));
     }
 }
