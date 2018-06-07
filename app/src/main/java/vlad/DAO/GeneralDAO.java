@@ -11,9 +11,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import vlad.Previews.PreviewFactory;
+import vlad.backend.Algorithms.Sorters;
 
 /**
  * Generalized Data Access Object for this project which is responsible for persistance of various classes
@@ -35,7 +38,7 @@ public class GeneralDAO<Backend, Preview> {
         mFactory =factory;
     }
 
-    /** TODO test
+    /** TODO Alphabetize
      * Loads previews of all the items saved
      *  Does this by looking into the directory that was passed in and listing all the files
      * @return A list of previews
@@ -51,6 +54,7 @@ public class GeneralDAO<Backend, Preview> {
                             previews[i].length() -4)
             ));
         }
+        Sorters.quickSort((List<Comparable>) toReturn);
         return toReturn;
     }
 
@@ -103,6 +107,10 @@ public class GeneralDAO<Backend, Preview> {
         boolean workoutDirSuccess = mSAVE_DIR.mkdir();
         boolean pictureDirSuccess = mPIC_DIR.mkdir();
         return workoutDirSuccess && pictureDirSuccess;
+    }
+
+    private void alphabetize(List toAlphabetize){
+        Sorters.quickSort(toAlphabetize);
     }
 
 }
