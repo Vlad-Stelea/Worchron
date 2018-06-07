@@ -117,4 +117,41 @@ public class Sorters {
     private static Comparable choosePivot(Comparable[] array, int left, int right){
         return array[right -1];
     }
+
+    /**
+     * Inserts an element into a list at the correct position based on ascending order
+     * @implNote uses binary insertion method for fast runtime
+     * @implSpec the passed in list must be already sorted
+     * @param list the list to add the new object into
+     * @param toInsert the element to add into the list at the correct position
+     */
+    public static <T extends Comparable<? super T>> void binaryInsert(List<T> list, T toInsert){
+        T[] array = (T[]) list.toArray();
+        //constant that holds where the new item should be inserted
+        final int position = arrayBinaryInsert(array, 0, array.length, toInsert);
+        list.add(position, toInsert);
+    }
+
+    /**
+     * finds the position that a comparable object belongs in
+     * @param array the original array
+     * @param lo the smallest index in the search radius
+     * @param hi the largest index in the search radius
+     * @param pivot what is going to be added into the list
+     * @return the index that the pivot should be inserted into
+     */
+    private static int arrayBinaryInsert(Comparable[] array, int lo, int hi, Comparable pivot){
+        //base case
+        if(hi - lo <= 1)
+            return lo+1;
+        int midPoint = ((lo + hi) / 2);
+        int compareResult = pivot.compareTo(array[midPoint]);
+        if(compareResult == 0){
+            return midPoint;
+        }else if(compareResult > 0){
+            return arrayBinaryInsert(array, midPoint, hi, pivot);
+        }else{
+            return arrayBinaryInsert(array, lo, midPoint,pivot);
+        }
+    }
 }

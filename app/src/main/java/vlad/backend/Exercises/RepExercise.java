@@ -1,5 +1,7 @@
 package vlad.backend.Exercises;
 
+import java.io.Serializable;
+
 import vlad.backend.WorkoutExercise;
 
 /**
@@ -45,7 +47,7 @@ public class RepExercise extends WorkoutExercise {
         return null;
     }
 
-    public static class ExerciseStep{
+    public static class ExerciseStep implements Serializable{
         private String mName;
 
         public ExerciseStep(String name){
