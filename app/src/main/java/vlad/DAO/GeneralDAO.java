@@ -56,7 +56,7 @@ public class GeneralDAO<Backend, Preview> {
                             previews[i].length() -4)
             ));
         }
-        alphabetize(toReturn);
+        alphabetize((List<? extends Comparable>) toReturn);
         return toReturn;
     }
 
@@ -111,8 +111,8 @@ public class GeneralDAO<Backend, Preview> {
         return workoutDirSuccess && pictureDirSuccess;
     }
 
-    private void alphabetize(List toAlphabetize){
-        Sorters.quickSort(toAlphabetize);
+    private void alphabetize(List<? extends Comparable> toAlphabetize){
+        Sorters.quickSort((List<Comparable>) toAlphabetize);
     }
 
 
