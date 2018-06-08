@@ -17,7 +17,6 @@ import java.util.List;
 import vlad.DAO.GeneralDAO;
 import vlad.Previews.ExercisePreview;
 import vlad.RecyclerView.Exercise.ExerciseAdapter;
-import vlad.backend.Algorithms.Sorters;
 import vlad.backend.Exercises.Exercise;
 import vlad.backend.Exercises.SelectableExercise;
 
@@ -30,7 +29,6 @@ public class ExercisesFragment extends Fragment {
     private RecyclerView.Adapter mAdaptor;
     private RecyclerView.LayoutManager mManager;
     private GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
-    private List<SelectableExercise> previews;
 
     public ExercisesFragment() {
         // Required empty public constructor
@@ -64,7 +62,7 @@ public class ExercisesFragment extends Fragment {
         mExercisesView = view.findViewById(R.id.exercises_view);
 
         //Get list of previews using DAO
-        previews = ExerciseDAO.loadAllPreviews();
+        List<SelectableExercise> previews = ExerciseDAO.loadAllPreviews();
         //content should not change layout size of recycler view
         //mExercisesView.setHasFixedSize(true);
 
@@ -94,10 +92,6 @@ public class ExercisesFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-    }
-
-    public void addExercise(SelectableExercise toAdd){
-        Sorters.binaryInsert(previews, toAdd);
     }
 
 }
