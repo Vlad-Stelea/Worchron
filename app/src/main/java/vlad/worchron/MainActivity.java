@@ -26,6 +26,7 @@ import vlad.backend.Exercises.SelectableExercise;
 public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
+    ExercisesFragment mExercisesFragment;
     public static GeneralDAO WorkoutDAO;
     public static GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 String accessCode = getString(R.string.create_exercise_result);
                 SelectableExercise newExercise = (SelectableExercise) data.getSerializableExtra(accessCode);
                 ExerciseDAO.saveBackend(newExercise,this);
+                mExercisesFragment.addElement(newExercise);
             }
         }
     }
@@ -102,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return new WorkoutsFragment();
                 case 1:
-                    return new ExercisesFragment();
+                    mExercisesFragment = new ExercisesFragment();
+                    return mExercisesFragment;
                     default:
                         return null;
 

@@ -11,11 +11,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import vlad.Previews.ExercisePreview;
+import vlad.backend.Algorithms.Sorters;
 import vlad.backend.Exercises.SelectableExercise;
 import vlad.worchron.R;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder>{
-    List<SelectableExercise> mDataSet;
+    private List<SelectableExercise> mDataSet;
 
     public ExerciseAdapter(List<SelectableExercise> dataSet){
         mDataSet = dataSet;
@@ -49,4 +50,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         return mDataSet.size();
     }
 
+    /**
+     * Adds an element to the list at the correct position
+     * @param toAdd The element which will be added to the list
+     */
+    public void addElement(SelectableExercise toAdd){
+        Sorters.binaryInsert(mDataSet,toAdd);
+        notifyDataSetChanged();
+    }
 }

@@ -26,7 +26,7 @@ import vlad.backend.Exercises.SelectableExercise;
  */
 public class ExercisesFragment extends Fragment {
     private RecyclerView mExercisesView;
-    private RecyclerView.Adapter mAdaptor;
+    private ExerciseAdapter mAdaptor;
     private RecyclerView.LayoutManager mManager;
     private GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
 
@@ -69,7 +69,6 @@ public class ExercisesFragment extends Fragment {
         //Linearlayout manager setup
         mManager = new LinearLayoutManager(getContext());
         mExercisesView.setLayoutManager(mManager);
-
         //Set up adapter
         mAdaptor = new ExerciseAdapter(previews);
         mExercisesView.setAdapter(mAdaptor);
@@ -94,4 +93,7 @@ public class ExercisesFragment extends Fragment {
         super.onDetach();
     }
 
+    public void addElement(SelectableExercise exercise){
+        mAdaptor.addElement(exercise);
+    }
 }
