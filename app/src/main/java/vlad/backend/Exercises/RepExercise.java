@@ -1,6 +1,7 @@
 package vlad.backend.Exercises;
 
 import vlad.backend.WorkoutExercise;
+import vlad.worchron.RenameDialog;
 
 /**
  * Class that represents an exercise that is done in reps eg. curls, pushups
@@ -45,7 +46,7 @@ public class RepExercise extends WorkoutExercise {
         return null;
     }
 
-    public static class ExerciseStep{
+    public static class ExerciseStep implements RenameDialog.Renamable{
         private String mName;
 
         public ExerciseStep(String name){
@@ -54,6 +55,16 @@ public class RepExercise extends WorkoutExercise {
 
         public String getName(){
             return mName;
+        }
+
+        /**
+         * Sets a new name for the object
+         *
+         * @param newName the objects new name
+         */
+        @Override
+        public void rename(String newName) {
+            mName = newName;
         }
     }
 }

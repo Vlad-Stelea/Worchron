@@ -2,15 +2,14 @@ package vlad.worchron;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class RepExerciseCreatorFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rep_exercise_creator, container, false);
@@ -93,6 +92,10 @@ public class RepExerciseCreatorFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if(! (context instanceof  RepExerciseCreatorCallback)){
+            throw new ClassCastException(context.toString()
+            + "Must be an instance of RepExerciseCreatorCallback");
+        }
         mStepsCount = 0;
         mSteps = new ArrayList<>();
     }
@@ -111,7 +114,7 @@ public class RepExerciseCreatorFragment extends Fragment {
         return mSteps;
     }
 
-    private static class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder>{
+    private class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder>{
         private List<RepExercise.ExerciseStep> mSteps;
 
         public MyAdaptor(List<RepExercise.ExerciseStep> steps){
@@ -120,6 +123,7 @@ public class RepExerciseCreatorFragment extends Fragment {
 
         /**
          */
+        @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -139,7 +143,7 @@ public class RepExerciseCreatorFragment extends Fragment {
             textView.setText(mSteps.get(position).getName());
 
             holder.itemView.setOnClickListener(view -> {
-                Log.d("TEST","CLick");
+                ((RepExerciseCreatorCallback) getActivity()).renameActivity(RepExerciseCreatorFragment.this, mSteps.get(position));
             });
         }
 
@@ -148,7 +152,7 @@ public class RepExerciseCreatorFragment extends Fragment {
             return mSteps.size();
         }
 
-        public static class MyViewHolder extends RecyclerView.ViewHolder{
+        public class MyViewHolder extends RecyclerView.ViewHolder{
 
             public MyViewHolder(View view){
                 super(view);
@@ -157,5 +161,26 @@ public class RepExerciseCreatorFragment extends Fragment {
 
 
     }
+
+    //<---------------------------------CallBack Stuff ----------------------------------------------->
+
+    /**
+     * Notifies the list adapter that an element in the dataset has changed it's name
+     */
+    public void renameStep(){
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Interface that all Activities that implement this fragment must implement
+     */
+    public interface RepExerciseCreatorCallback{
+        /**
+         * Lets the implementing activity know that something needs to be renamed
+         * @param fragment fragment that is calling this method
+         */
+        void renameActivity(RepExerciseCreatorFragment fragment, RenameDialog.Renamable toRename);
+    }
+
 
 }

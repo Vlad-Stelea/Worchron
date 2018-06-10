@@ -17,7 +17,8 @@ import vlad.backend.Exercises.SelectableExercise;
 import vlad.backend.Exercises.SelectableRepExercise;
 import vlad.backend.Exercises.SelectableTimedExercise;
 
-public class CreateExerciseActivity extends AppCompatActivity {
+public class CreateExerciseActivity extends AppCompatActivity implements RenameDialog.RenameDialogCallback,
+        RepExerciseCreatorFragment.RepExerciseCreatorCallback{
 
     private RadioGroup mRadioGroup;
     private View mRepView;
@@ -77,4 +78,29 @@ public class CreateExerciseActivity extends AppCompatActivity {
     }
 
 
+//<-----------------------------------Callback stuff----------------------------------------------------------->
+    private RepExerciseCreatorFragment currentSelectedExerciseCreator;
+
+    /**
+     * Callback that lets the activity know that the object has been renamed
+     */
+    @Override
+    public void sendNewName() {
+        currentSelectedExerciseCreator.renameStep();
+    }
+
+    /**
+     * Does whatever it needs to if cancelled
+     */
+    @Override
+    public void onCancel() {
+        //Do nothing
+    }
+
+    @Override
+    public void renameActivity(RepExerciseCreatorFragment fragment, RenameDialog.Renamable toRename) {
+        currentSelectedExerciseCreator = fragment;
+        RenameDialog dialog = RenameDialog.newInstance(toRename);
+        dialog.show(getFragmentManager(), "Rename");
+    }
 }
