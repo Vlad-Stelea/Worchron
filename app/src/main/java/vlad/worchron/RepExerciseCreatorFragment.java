@@ -114,6 +114,8 @@ public class RepExerciseCreatorFragment extends Fragment {
         return mSteps;
     }
 
+    //<----------RecyclerView stuff--------------------->
+
     private class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder>{
         private List<RepExercise.ExerciseStep> mSteps;
 

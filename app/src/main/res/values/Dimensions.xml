@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="max_frag_size">100dp</dimen>
+    <dimen name="workout_exercise_name_size">30dp</dimen>
+    <dimen name="workout_exercise_subtext_size">20dp</dimen>
 </resources>

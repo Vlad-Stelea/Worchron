@@ -1,6 +1,8 @@
 package vlad.backend.Exercises;
 
-import vlad.backend.WorkoutExercise;
+import java.util.ArrayList;
+import java.util.List;
+
 import vlad.worchron.RenameDialog;
 
 /**
@@ -11,40 +13,19 @@ public class RepExercise extends WorkoutExercise {
     private int mSets;
     //How many reps for each set
     private int mReps;
-    //How long each stage should take for this exercise
-    //If empty then this feature is not set up for the exercies
-    private long[] mMetronomeTimes;
 
     /**
      * Constructs a RepExercises object
-     * @param name the name of this exercise
+     * @param repExercise the exercise that this will be a version of
      * @param sets how many sets of this exercise will occur
      * @param reps how many reps of this exercise will occur
      */
-    public RepExercise(String name, int sets, int reps){
-        super(name);
+    public RepExercise(SelectableRepExercise repExercise, int sets, int reps){
+        super(repExercise);
         mSets = sets;
         mReps = reps;
-        mMetronomeTimes = new long[0];
     }
 
-    /**
-     * Constructs a RepExercise object
-     * @param name the name of this exercise
-     * @param sets the number of sets for this exercise
-     * @param reps the number of reps for this exercise
-     * @param metronomeTimes array of long values that represent how long each stage of the exercise has to execute for
-     */
-    public RepExercise(String name, int sets, int reps, long[] metronomeTimes){
-        super(name);
-        mSets = sets;
-        mReps = reps;
-        mMetronomeTimes = metronomeTimes;
-    }
-    @Override
-    public String toString() {
-        return null;
-    }
 
     public static class ExerciseStep implements RenameDialog.Renamable{
         private String mName;

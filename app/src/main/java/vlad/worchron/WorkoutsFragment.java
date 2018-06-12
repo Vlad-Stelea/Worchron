@@ -61,7 +61,7 @@ public class WorkoutsFragment extends Fragment {
         //Set up button click
         ImageButton createWorkoutButton = view.findViewById(R.id.add_workout_button);
         createWorkoutButton.setOnClickListener(v ->{
-            Intent intent = new Intent(getActivity(), CreateWorkout.class);
+            Intent intent = new Intent(getActivity(), EditWorkout.class);
             startActivity(intent);
         });
         return view;

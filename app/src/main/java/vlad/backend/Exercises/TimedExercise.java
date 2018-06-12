@@ -1,7 +1,5 @@
 package vlad.backend.Exercises;
 
-import vlad.backend.WorkoutExercise;
-
 /**
  * Represents an Exercise that has to last for a certain amount of time
  */
@@ -11,15 +9,19 @@ public class TimedExercise extends WorkoutExercise {
 
     /**
      * Constructs a Timed Exercise object
-     * @param name the name of the exercise
+     * @param exercise the {@link SelectableTimedExercise} that this will be a workout version of
      * @param time how long the exercise should last for
      */
-    public TimedExercise(String name, long time){
-        super(name);
+    public TimedExercise(SelectableTimedExercise exercise, long time){
+        super(exercise);
         mTime = time;
     }
-    @Override
-    public String toString() {
-        return null;
+
+    /**
+     * gets the time of this exercise
+     * @return the time of the exercise
+     */
+    public long getTime(){
+        return mTime;
     }
 }

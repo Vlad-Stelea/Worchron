@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import vlad.backend.Exercises.WorkoutExercise;
+
 /**
  * Represents a workout which is a collection of exercises
  */
