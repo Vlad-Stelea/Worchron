@@ -18,10 +18,11 @@ public class TimedExercise extends WorkoutExercise {
     }
 
     /**
+     * TODO Convert time into hrs+mins+secs
      * gets the time of this exercise
      * @return the time of the exercise
      */
-    public long getTime(){
-        return mTime;
+    public String getTime(){
+        return "" + mTime;
     }
 }

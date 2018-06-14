@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/workout_exercise_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/workout_exercise_layout_name"
+        android:text="Pushup"
+        android:textSize="@dimen/workout_exercise_name_size"
+        android:background="@color/workout_exercise_background"
+        android:gravity="center_vertical"
+        android:layout_weight="10"/>
+    <!-- Linear Layout for reps and sets -->
+    <LinearLayout
+        android:id="@+id/workout_exercise_layout_rep_exercise_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/workout_exercise_background"
+        android:visibility="gone">
+        <!-- Reps layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/workout_exercise_background">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/workout_exercise_subtext_size"
+                android:background="@color/workout_exercise_background"
+                android:textColor="@color/textColor"
+                android:text="Sets: "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/workout_exercise_layout_set_view"
+                android:text="0"
+                android:paddingEnd="8dp"
+                android:textSize="@dimen/workout_exercise_subtext_size"
+                android:textColor="@color/textColor"
+                android:background="@color/workout_exercise_background"/>
+        </LinearLayout>
+       <!-- Sets layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Reps:"
+                android:textSize="@dimen/workout_exercise_subtext_size"
+                android:textColor="@color/textColor"
+                android:background="@color/workout_exercise_background"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/workout_exercise_layout_rep_view"
+                android:text="0"
+                android:paddingEnd="8dp"
+                android:textSize="@dimen/workout_exercise_subtext_size"
+                android:textColor="@color/textColor"
+                android:background="@color/workout_exercise_background"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/workout_exercise_layout_time"
+        android:text="40:00"
+        android:textSize="@dimen/workout_exercise_subtext_size"
+        android:background="@color/workout_exercise_background"
+        android:gravity="end"
+        android:visibility="gone"/>
+
+
+
+</LinearLayout>

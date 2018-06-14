@@ -26,7 +26,13 @@ public class RepExercise extends WorkoutExercise {
         mReps = reps;
     }
 
+    public int getSets(){
+        return mSets;
+    }
 
+    public int getReps(){
+        return mReps;
+    }
     public static class ExerciseStep implements RenameDialog.Renamable{
         private String mName;
 

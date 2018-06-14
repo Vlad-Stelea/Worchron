@@ -8,4 +8,5 @@
     <color name="addWorkoutBackDefault">#1A40D8</color>
     <color name="action_bar_color">#776ED1</color>
     <color name="hint_color">#708090</color>
+    <color name="workout_exercise_background">#7fff9b</color>
 </resources>
