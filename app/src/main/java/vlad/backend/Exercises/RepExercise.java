@@ -1,12 +1,18 @@
 package vlad.backend.Exercises;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.NumberPicker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import vlad.worchron.EditExerciseDialog;
 import vlad.worchron.EditWorkout;
+import vlad.worchron.R;
 import vlad.worchron.RenameDialog;
 
 /**
@@ -47,7 +53,44 @@ public class RepExercise extends WorkoutExercise {
         return null;
     }
 
+    //<-------------------EditDialogStuff-------------------------------->
 
+    public static class RepExerciseEditDialog extends EditExerciseDialog{
+        private static String EXERCISE_KEY = "Exercise";
+
+        private static RepExerciseEditDialog newInstance(RepExercise exercise){
+            RepExerciseEditDialog dialog = new RepExerciseEditDialog();
+            Bundle args = new Bundle();
+            args.putSerializable(EXERCISE_KEY,exercise);
+            dialog.setArguments(args);
+            return dialog;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            RepExercise toEdit = (RepExercise) getArguments().get(EXERCISE_KEY);
+            View view = getActivity().getLayoutInflater().inflate(R.layout.rep_exercise_edit_dialog_layout, null);
+            //Set up Number pickers
+            NumberPicker setPicker = view.findViewById(R.id.rep_exercise_edit_dialog_layout_sets);
+            NumberPicker repPicker = view.findViewById(R.id.rep_exercise_edit_dialog_layout_reps);
+
+            //Set up builder parameters
+            builder.setTitle("Edit Reps and Sets")
+            .setView(view)
+            .setNegativeButton("Cancel", (dialog, id) ->{
+              dismiss();
+            })
+            .setPositiveButton("Ok", (dialog, id) ->{
+                toEdit.mReps = repPicker.getValue();
+                toEdit.mSets = setPicker.getValue();
+                mCallback.sendEditedExercise();
+            });
+            return builder.create();
+        }
+    }
+
+//<-----------------------Exercise Step stuff----------------------------->
     public static class ExerciseStep implements RenameDialog.Renamable{
         private String mName;
 

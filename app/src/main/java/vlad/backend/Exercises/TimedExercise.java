@@ -1,6 +1,5 @@
 package vlad.backend.Exercises;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ public class TimedExercise extends WorkoutExercise {
     }
 
     /**
-     * TODO Convert time into hrs+mins+secs
      * gets the time of this exercise
      * @return the time of the exercise
      */
