@@ -1,8 +1,12 @@
 package vlad.backend.Exercises;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import vlad.worchron.EditExerciseDialog;
+import vlad.worchron.EditWorkout;
 import vlad.worchron.RenameDialog;
 
 /**
@@ -33,6 +37,17 @@ public class RepExercise extends WorkoutExercise {
     public int getReps(){
         return mReps;
     }
+
+    /**
+     * Creates an edit exercise dialog so that the user can edit the exercise
+     * @return
+     */
+    @Override
+    public EditExerciseDialog getEditExerciseDialog() {
+        return null;
+    }
+
+
     public static class ExerciseStep implements RenameDialog.Renamable{
         private String mName;
 

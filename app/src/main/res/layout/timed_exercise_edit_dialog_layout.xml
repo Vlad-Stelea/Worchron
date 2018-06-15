@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+    <!--Hours Picker-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hours"
+            android:textSize="@dimen/workout_exercise_subtext_size"
+            android:paddingBottom="8dp"/>
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timed_exercise_edit_dialog_hours"/>
+    </LinearLayout>
+
+    <!--Minutes picker-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minutes"
+            android:textSize="@dimen/workout_exercise_subtext_size"
+            android:paddingBottom="8dp"/>
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timed_exercise_edit_dialog_minutes"/>
+    </LinearLayout>
+    <!--Seconds Picker-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seconds"
+            android:textSize="@dimen/workout_exercise_subtext_size"
+            android:paddingBottom="8dp"/>
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timed_exercise_edit_dialog_seconds"/>
+    </LinearLayout>
+</LinearLayout>

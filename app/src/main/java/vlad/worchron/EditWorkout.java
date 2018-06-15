@@ -21,7 +21,7 @@ import vlad.backend.Exercises.SelectableTimedExercise;
 import vlad.backend.Exercises.TimedExercise;
 import vlad.backend.Exercises.WorkoutExercise;
 
-public class EditWorkout extends AppCompatActivity {
+public class EditWorkout extends AppCompatActivity implements EditExerciseDialog.EditExerciseDialogCallback{
 
     private List<WorkoutExercise> mExercises;
     //Recycler view declarations
@@ -57,6 +57,15 @@ public class EditWorkout extends AppCompatActivity {
         mAdapter = new MyAdaptor(mExercises);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+    //<-----------------------Callback stuff------------------------------->
+    /**
+     * Notifies the calling exercise that the exercise was changed
+     * TODO implement
+     */
+    @Override
+    public void sendEditedExercise() {
+        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -97,10 +106,9 @@ public class EditWorkout extends AppCompatActivity {
 
             public MyViewHolder(View itemView) {
                 super(itemView);
-
             }
-        }
 
+        }
     }
 
 
@@ -118,11 +126,19 @@ public class EditWorkout extends AppCompatActivity {
         public ExerciseView(Context context) {
             super(context);
             inflate(context,R.layout.workout_exercise_layout,this);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            setPadding(0,0,0,1);
+            setLayoutParams(lp);
+            setElevation(10);
             mNameView = this.findViewById(R.id.workout_exercise_layout_name);
             mTimeView = findViewById(R.id.workout_exercise_layout_time);
             mSetsView = findViewById(R.id.workout_exercise_layout_set_view);
             mRepsView = findViewById(R.id.workout_exercise_layout_rep_view);
             mRepViewContent = findViewById(R.id.workout_exercise_layout_rep_exercise_view);
+            setOnClickListener(view -> {
+                //TODO make it edit
+                mCurrentExercise.getEditExerciseDialog().show(getFragmentManager(), "Edit");
+            });
         }
 
         /**

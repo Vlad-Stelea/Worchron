@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/workout_exercise_background">
+    android:layout_height="70dp"
+    android:background="@color/workout_exercise_background"
+    android:gravity="center_vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/workout_exercise_layout_name"
+        android:paddingLeft="8dp"
         android:text="Pushup"
         android:textSize="@dimen/workout_exercise_name_size"
         android:background="@color/workout_exercise_background"
@@ -74,6 +76,7 @@
         android:id="@+id/workout_exercise_layout_time"
         android:text="40:00"
         android:textSize="@dimen/workout_exercise_subtext_size"
+        android:paddingEnd="8dp"
         android:background="@color/workout_exercise_background"
         android:gravity="end"
         android:visibility="gone"/>
