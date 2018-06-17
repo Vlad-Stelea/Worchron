@@ -3,4 +3,5 @@
     <dimen name="max_frag_size">100dp</dimen>
     <dimen name="workout_exercise_name_size">30dp</dimen>
     <dimen name="workout_exercise_subtext_size">20dp</dimen>
+    <dimen name="preview_height">50dp</dimen>
 </resources>

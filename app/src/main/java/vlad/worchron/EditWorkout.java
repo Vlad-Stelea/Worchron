@@ -1,6 +1,7 @@
 package vlad.worchron;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,18 +18,20 @@ import java.util.List;
 
 
 import vlad.backend.Exercises.RepExercise;
+import vlad.backend.Exercises.SelectableExercise;
 import vlad.backend.Exercises.SelectableTimedExercise;
 import vlad.backend.Exercises.TimedExercise;
 import vlad.backend.Exercises.WorkoutExercise;
 
 public class EditWorkout extends AppCompatActivity implements EditExerciseDialog.EditExerciseDialogCallback{
-
+    //The exercises already in this workout
     private List<WorkoutExercise> mExercises;
     //Recycler view declarations
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ImageButton addButton;
+    private final static int PICK_EXERCISE_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +44,28 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
             mExercises.add(new TimedExercise(new SelectableTimedExercise("Run"),i+100));
         }
         addButton = findViewById(R.id.activity_edit_workout_add_button);
+        addButton.setOnClickListener(view -> {
+            //TODO start exercise selector activity for result of an exercise
+            Intent intent = new Intent(this, SelectExerciseActivity.class);
+            startActivityForResult(intent,PICK_EXERCISE_REQUEST_CODE);
+        });
         recyclerViewInit();
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK){
+            if(requestCode == PICK_EXERCISE_REQUEST_CODE){
+                String workoutKey = getString(R.string.select_exercise_exercise_key);
+                WorkoutExercise returnedExercise = (WorkoutExercise) data.getSerializableExtra(workoutKey);
+                returnedExercise.getEditExerciseDialog().show(getFragmentManager(),"new_exercise");
+                mExercises.add(returnedExercise);
+            }
+        }
+    }
+    //<-----------------------Initializer Methods--------------------->
 
     private void recyclerViewInit(){
         //get the recycler view from the layout
@@ -61,7 +82,6 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
     //<-----------------------Callback stuff------------------------------->
     /**
      * Notifies the calling exercise that the exercise was changed
-     * TODO implement
      */
     @Override
     public void sendEditedExercise() {
@@ -86,7 +106,6 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
 
         }
         /**
-         * TODO implement
          * @param holder   The ViewHolder which should be updated to represent the contents of the
          *                 item at the given position in the data set.
          * @param position The position of the item within the adapter's data set.
@@ -136,7 +155,6 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
             mRepsView = findViewById(R.id.workout_exercise_layout_rep_view);
             mRepViewContent = findViewById(R.id.workout_exercise_layout_rep_exercise_view);
             setOnClickListener(view -> {
-                //TODO make it edit
                 mCurrentExercise.getEditExerciseDialog().show(getFragmentManager(), "Edit");
             });
         }

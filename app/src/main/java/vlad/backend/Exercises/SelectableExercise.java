@@ -2,6 +2,8 @@ package vlad.backend.Exercises;
 
 import android.support.annotation.NonNull;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import vlad.Previews.PreviewFactory;

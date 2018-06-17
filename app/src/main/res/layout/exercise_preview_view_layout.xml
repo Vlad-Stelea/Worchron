@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_height"
+        android:id="@+id/exercise_preview_view_layout_name"
+        android:textSize="@dimen/workout_exercise_name_size"
+        android:text="Pushup"
+        android:background="@color/workout_exercise_background"
+        android:gravity="center_horizontal|center_vertical"/>
+
+</LinearLayout>

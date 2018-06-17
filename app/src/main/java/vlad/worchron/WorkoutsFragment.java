@@ -28,6 +28,7 @@ import vlad.Previews.WorkoutPreview;
 public class WorkoutsFragment extends Fragment {
     private GeneralDAO<Workout, WorkoutPreview> WORKOUT_DAO;
     private static final int CREATE_WORKOUT_REQUEST = 1;
+    public static final String EXERCISE_LIST_CODE = "ExerciseList";
     public WorkoutsFragment() {
         // Required empty public constructor
     }
@@ -108,6 +109,5 @@ public class WorkoutsFragment extends Fragment {
             return mWorkoutPreviews.size();
         }
     }
-
 
 }

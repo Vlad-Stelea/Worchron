@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 
+import java.util.List;
+
 import vlad.DAO.GeneralDAO;
 import vlad.DAO.WorkoutDAO;
 import vlad.Previews.ExercisePreview;

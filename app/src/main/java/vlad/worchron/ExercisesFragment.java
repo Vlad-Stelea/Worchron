@@ -29,6 +29,7 @@ public class ExercisesFragment extends Fragment {
     private ExerciseAdapter mAdaptor;
     private RecyclerView.LayoutManager mManager;
     private GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
+    List<SelectableExercise> mPreviews;
 
     public ExercisesFragment() {
         // Required empty public constructor
@@ -62,7 +63,7 @@ public class ExercisesFragment extends Fragment {
         mExercisesView = view.findViewById(R.id.exercises_view);
 
         //Get list of previews using DAO
-        List<SelectableExercise> previews = ExerciseDAO.loadAllPreviews();
+        mPreviews = ExerciseDAO.loadAllPreviews();
         //content should not change layout size of recycler view
         //mExercisesView.setHasFixedSize(true);
 
@@ -70,7 +71,7 @@ public class ExercisesFragment extends Fragment {
         mManager = new LinearLayoutManager(getContext());
         mExercisesView.setLayoutManager(mManager);
         //Set up adapter
-        mAdaptor = new ExerciseAdapter(previews);
+        mAdaptor = new ExerciseAdapter(mPreviews);
         mExercisesView.setAdapter(mAdaptor);
         //Set up click listener for the add exercise button
         view.findViewById(R.id.add_exercise_button).setOnClickListener(v->{
@@ -95,5 +96,10 @@ public class ExercisesFragment extends Fragment {
 
     public void addElement(SelectableExercise exercise){
         mAdaptor.addElement(exercise);
+    }
+
+    //<--------------------Getters and Setters------------------------------------->
+    public List<SelectableExercise> getPreviews() {
+        return mPreviews;
     }
 }

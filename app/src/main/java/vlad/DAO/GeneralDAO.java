@@ -40,7 +40,7 @@ public class GeneralDAO<Backend, Preview> {
         mFactory =factory;
     }
 
-    /** TODO Alphabetize
+    /**
      * Loads previews of all the items saved
      *  Does this by looking into the directory that was passed in and listing all the files
      * @return A list of previews
