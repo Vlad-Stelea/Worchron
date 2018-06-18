@@ -36,4 +36,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     testImplementation 'junit:junit:4.12'
+    api 'com.google.code.gson:gson:2.8.5'
 }

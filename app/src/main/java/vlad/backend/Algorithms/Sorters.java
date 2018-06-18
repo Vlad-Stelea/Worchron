@@ -123,8 +123,11 @@ public class Sorters {
      * @param toInsert the element to add into the list at the correct position
      */
     public static <T extends Comparable<? super T>> void binaryInsert(List<T> list, T toInsert){
-        //constant that holds where the new item should be inserted
-        final int position = arrayBinaryInsert(list, 0, list.size(), toInsert);
+        //variable that holds where the new item should be inserted
+        int position = arrayBinaryInsert(list, 0, list.size(), toInsert);
+        if(position >= list.size()){
+            position = list.size();
+        }
         list.add(position, toInsert);
     }
 

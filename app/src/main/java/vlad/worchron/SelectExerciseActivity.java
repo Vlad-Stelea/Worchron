@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
 import java.util.List;
 
+import vlad.DAO.ExerciseDAO;
 import vlad.Previews.ExercisePreview;
 import vlad.backend.Exercises.SelectableExercise;
+import vlad.backend.Exercises.SelectableRepExercise;
 import vlad.backend.Exercises.SelectableTimedExercise;
 import vlad.backend.Exercises.WorkoutExercise;
 
@@ -26,7 +29,7 @@ public class SelectExerciseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_exercise);
-        mExercises = MainActivity.ExerciseDAO.loadAllPreviews();
+        mExercises = MainActivity.ExerciseDAO.loadAllBackend();
         recyclerViewInit();
     }
 
@@ -69,7 +72,7 @@ public class SelectExerciseActivity extends AppCompatActivity {
             view.setOnClickListener(v ->{
                 ExercisePreviewView exerciseView = (ExercisePreviewView) v;
                 SelectableExercise exercise = exerciseView.mExercise;
-                Log.d("TEST",exercise.getName() + "is of type timedExercise" + (exercise instanceof SelectableTimedExercise));
+                Log.d("TEST", exercise.getName() + " is of type Timed " + (exercise instanceof SelectableTimedExercise));
             });
             view.setExercise(mExercises.get(position));
         }

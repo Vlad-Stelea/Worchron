@@ -67,7 +67,7 @@ public class GeneralDAO<Backend, Preview> {
      * @return the selected workout exercise
      */
     public Backend loadBackend(String name) throws IOException, ClassNotFoundException {
-        String toLoad = mSAVE_DIR + name + ".wrk";
+        String toLoad = mSAVE_DIR + "/" + name;
         FileInputStream fis = new FileInputStream(toLoad);
         ObjectInputStream ois = ois = new ObjectInputStream(fis);
         return (Backend) ois.readObject();
@@ -109,6 +109,23 @@ public class GeneralDAO<Backend, Preview> {
         boolean workoutDirSuccess = mSAVE_DIR.mkdir();
         boolean pictureDirSuccess = mPIC_DIR.mkdir();
         return workoutDirSuccess && pictureDirSuccess;
+    }
+
+    public List<Backend> loadAllBackend(){
+        String[] previews = mSAVE_DIR.list();
+        List<Backend> toReturn = new ArrayList<>();
+        for(int i = 1; i < previews.length; i++){
+            try {
+                toReturn.add(loadBackend(previews[i]));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return toReturn;
     }
 
     private void alphabetize(List<? extends Comparable> toAlphabetize){
