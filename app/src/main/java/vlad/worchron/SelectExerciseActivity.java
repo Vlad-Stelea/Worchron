@@ -1,23 +1,18 @@
 package vlad.worchron;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
 import java.util.List;
 
-import vlad.DAO.ExerciseDAO;
-import vlad.Previews.ExercisePreview;
 import vlad.backend.Exercises.SelectableExercise;
-import vlad.backend.Exercises.SelectableRepExercise;
 import vlad.backend.Exercises.SelectableTimedExercise;
-import vlad.backend.Exercises.WorkoutExercise;
 
 public class SelectExerciseActivity extends AppCompatActivity {
     private List<SelectableExercise> mExercises;
@@ -72,7 +67,11 @@ public class SelectExerciseActivity extends AppCompatActivity {
             view.setOnClickListener(v ->{
                 ExercisePreviewView exerciseView = (ExercisePreviewView) v;
                 SelectableExercise exercise = exerciseView.mExercise;
-                Log.d("TEST", exercise.getName() + " is of type Timed " + (exercise instanceof SelectableTimedExercise));
+                Intent intent = new Intent();
+                String workoutKey = getString(R.string.select_exercise_exercise_key);
+                intent.putExtra(workoutKey, exercise.createWorkoutVersion());
+                setResult(RESULT_OK, intent);
+                finish();
             });
             view.setExercise(mExercises.get(position));
         }

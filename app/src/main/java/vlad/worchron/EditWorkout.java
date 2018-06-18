@@ -39,10 +39,6 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
         setContentView(R.layout.activity_edit_workout);
         //TODO change so that it gets a workout from the saved instanceState
         mExercises = new ArrayList<>();
-        //Fill false arrayList
-        for(int i = 0; i < 40; i++){
-            mExercises.add(new TimedExercise(new SelectableTimedExercise("Run"),i+100));
-        }
         addButton = findViewById(R.id.activity_edit_workout_add_button);
         addButton.setOnClickListener(view -> {
             //TODO start exercise selector activity for result of an exercise
@@ -175,8 +171,8 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
                 mTimeView.setVisibility(GONE);
                 mRepViewContent.setVisibility(VISIBLE);
                 RepExercise newEx = (RepExercise) newExercise;
-                mRepsView.setText(newEx.getReps());
-                mSetsView.setText(newEx.getSets());
+                mRepsView.setText("" + newEx.getReps());
+                mSetsView.setText(""+newEx.getSets());
             }
 
         }

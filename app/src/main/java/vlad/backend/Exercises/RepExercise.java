@@ -50,7 +50,7 @@ public class RepExercise extends WorkoutExercise {
      */
     @Override
     public EditExerciseDialog getEditExerciseDialog() {
-        return null;
+        return RepExerciseEditDialog.newInstance(this);
     }
 
     //<-------------------EditDialogStuff-------------------------------->
@@ -74,7 +74,12 @@ public class RepExercise extends WorkoutExercise {
             //Set up Number pickers
             NumberPicker setPicker = view.findViewById(R.id.rep_exercise_edit_dialog_layout_sets);
             NumberPicker repPicker = view.findViewById(R.id.rep_exercise_edit_dialog_layout_reps);
-
+            setPicker.setMinValue(0);
+            repPicker.setMinValue(0);
+            setPicker.setMaxValue(900);
+            repPicker.setMaxValue(900);
+            setPicker.setValue(toEdit.getSets());
+            repPicker.setValue(toEdit.getReps());
             //Set up builder parameters
             builder.setTitle("Edit Reps and Sets")
             .setView(view)

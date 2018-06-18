@@ -23,6 +23,12 @@ public class SelectableExercise implements Serializable, Comparable<SelectableEx
         return mName;
     }
 
+    public WorkoutExercise createWorkoutVersion() {
+        (new CantCreateWorkoutVersionException(this)).printStackTrace();
+        System.exit(1);
+        return null;
+    }
+
     @Override
     public String toString(){
         return mName;
@@ -38,6 +44,12 @@ public class SelectableExercise implements Serializable, Comparable<SelectableEx
         @Override
         public SelectableExercise createT(String name) {
             return new SelectableExercise(name);
+        }
+    }
+
+    public static class CantCreateWorkoutVersionException extends Exception{
+        public CantCreateWorkoutVersionException(SelectableExercise exercise){
+            super(exercise.getName() + " can not create a workout version of this exercise. \nYou should implement createWorkoutVersion() in the calling exercise.");
         }
     }
 }
