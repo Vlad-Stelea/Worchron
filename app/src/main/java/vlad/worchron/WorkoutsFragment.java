@@ -6,19 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 import vlad.DAO.GeneralDAO;
 
+import vlad.backend.Algorithms.Sorters;
+import vlad.backend.Exercises.WorkoutExercise;
 import vlad.backend.Workout;
 import vlad.Previews.WorkoutPreview;
 
@@ -26,9 +34,15 @@ import vlad.Previews.WorkoutPreview;
 /**
  */
 public class WorkoutsFragment extends Fragment {
-    private GeneralDAO<Workout, WorkoutPreview> WORKOUT_DAO;
+    private GeneralDAO workoutDAO = MainActivity.WorkoutDAO;
     private static final int CREATE_WORKOUT_REQUEST = 1;
     public static final String EXERCISE_LIST_CODE = "ExerciseList";
+    //Recycler View variables
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Workout> mWorkouts;
+
     public WorkoutsFragment() {
         // Required empty public constructor
     }
@@ -56,57 +70,97 @@ public class WorkoutsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this
         View view = inflater.inflate(R.layout.fragment_workouts, container, false);
-        ListView workoutsList = view.findViewById(R.id.workouts_list);
-        List<WorkoutPreview> workoutPreviews = WORKOUT_DAO.loadAllPreviews();
-        workoutsList.setAdapter(new WorkoutPreviewAdaptor(getActivity(), 0, workoutPreviews));
+        mWorkouts = workoutDAO.loadAllBackend();
         //Set up button click
         ImageButton createWorkoutButton = view.findViewById(R.id.add_workout_button);
         createWorkoutButton.setOnClickListener(v ->{
             Intent intent = new Intent(getActivity(), EditWorkout.class);
-            startActivity(intent);
+            getActivity().startActivityForResult(intent, getResources().getInteger(R.integer.new_workout_request_code));
         });
+        //get the recycler view from the layout
+        mRecyclerView = view.findViewById(R.id.fragment_workouts_recycler_view);
+        RecyclerViewInit();
         return view;
     }
 
+    /**
+     * Add a workout to this view
+     * @param workout the workout to be added
+     */
+    public void addWorkout(Workout workout){
+        Sorters.binaryInsert(mWorkouts, workout);
+        mAdapter.notifyDataSetChanged();
+    }
+    //<---------------Initializers----------------------------------->
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        WORKOUT_DAO = MainActivity.WorkoutDAO;
+    private void RecyclerViewInit(){
+        //Set up the layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        //set up adaptor
+        mAdapter = new MyAdaptor(mWorkouts);
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+    //<----------------Recycler View stuff--------------------------->
+    private class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder>{
 
+        private List<Workout> mWorkouts;
 
-
-    private class WorkoutPreviewAdaptor extends ArrayAdapter{
-        private List<WorkoutPreview> mWorkoutPreviews;
-        public WorkoutPreviewAdaptor(@NonNull Context context, int resource, List<WorkoutPreview> previews) {
-            super(context, resource);
-            mWorkoutPreviews = previews;
+        public MyAdaptor(List<Workout> exercises){
+            mWorkouts = exercises;
         }
 
+        @NonNull
+        @Override
+        public MyAdaptor.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            WorkoutPreviewView view = new WorkoutPreviewView(parent.getContext());
+            return new MyViewHolder(view);
+        }
         /**
-         *
-         * @param position The position of the item within the adapter's data set of the item whose view we want.
-         * @param convertView The old view to reuse, if possible
-         * @param parent The parent that this view will eventually be attached to
-         *                  This value must never be null.
-         * @return
+         * @param holder   The ViewHolder which should be updated to represent the contents of the
+         *                 item at the given position in the data set.
+         * @param position The position of the item within the adapter's data set.
          */
         @Override
-        public View getView(int position,
-                            View convertView,
-                            ViewGroup parent){
-            return new WorkoutPreviewView(getContext(), mWorkoutPreviews.get(position));
+        public void onBindViewHolder(MyAdaptor.MyViewHolder holder, int position) {
+            WorkoutPreviewView view = (WorkoutPreviewView) holder.itemView;
+            view.setWorkout(mWorkouts.get(position));
+        }
+
+        @Override
+        public int getItemCount(){
+            return mWorkouts.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder{
+
+            public MyViewHolder(View itemView) {
+                super(itemView);
+            }
 
         }
-        @Override
-        public int getCount(){
-            return mWorkoutPreviews.size();
+    }
+
+//<-------------------WorkoutPreviewView stuff--------------------------------------->
+
+    private static class WorkoutPreviewView extends LinearLayout{
+        private TextView nameText;
+        private Workout currentWorkout;
+        public WorkoutPreviewView(Context context) {
+            super(context);
+            LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            setLayoutParams(lp);
+            LayoutInflater.from(context).inflate(R.layout.workout_preview_view_layout,this);
+            setPadding(0,0,0,1);
+            nameText = this.findViewById(R.id.workout_preview_view_layout_workout_name);
+        }
+
+        public void setWorkout(Workout newWorkout){
+            currentWorkout = newWorkout;
+            nameText.setText(currentWorkout.getName());
         }
     }
 

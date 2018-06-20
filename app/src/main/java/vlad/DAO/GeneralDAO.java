@@ -37,7 +37,7 @@ public class GeneralDAO<Backend, Preview> {
     public GeneralDAO(Context context, String saveDir, PreviewFactory factory){
         mSAVE_DIR = new File(context.getFilesDir() + saveDir);
         mPIC_DIR = new File(mSAVE_DIR.toString() + "/pictures");
-        mFactory =factory;
+        mFactory = factory;
     }
 
     /**

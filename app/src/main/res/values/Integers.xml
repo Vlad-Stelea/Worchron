@@ -2,5 +2,7 @@
 <resources>
     <integer name="max_exercise_length">24</integer>
     <integer name="create_exercise_code">1</integer>
-    <integer name="cicle_button_size">54</integer>
+    <integer name="circle_button_size">54</integer>
+    <integer name="new_workout_request_code">2</integer>
+    <integer name="edit_workout_request_code">3</integer>
 </resources>

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import vlad.backend.Exercises.SelectableExercise;
 import vlad.backend.Exercises.SelectableTimedExercise;
 import vlad.backend.Exercises.TimedExercise;
 import vlad.backend.Exercises.WorkoutExercise;
+import vlad.backend.Workout;
 
 public class EditWorkout extends AppCompatActivity implements EditExerciseDialog.EditExerciseDialogCallback{
     //The exercises already in this workout
@@ -30,21 +32,18 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ImageButton addButton;
+    private ImageButton addButton, doneButton;
     private final static int PICK_EXERCISE_REQUEST_CODE = 1;
-
+    private EditText nameField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_workout);
         //TODO change so that it gets a workout from the saved instanceState
         mExercises = new ArrayList<>();
-        addButton = findViewById(R.id.activity_edit_workout_add_button);
-        addButton.setOnClickListener(view -> {
-            //TODO start exercise selector activity for result of an exercise
-            Intent intent = new Intent(this, SelectExerciseActivity.class);
-            startActivityForResult(intent,PICK_EXERCISE_REQUEST_CODE);
-        });
+        nameFieldInit();
+        doneButtonInit();
+        addButtonInit();
         recyclerViewInit();
 
 
@@ -62,6 +61,31 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
         }
     }
     //<-----------------------Initializer Methods--------------------->
+
+    private void nameFieldInit(){
+        nameField = findViewById(R.id.activity_edit_workout_name_field);
+    }
+
+    private void doneButtonInit(){
+        doneButton = findViewById(R.id.activity_edit_workout_done_button);
+        doneButton.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            String key = getString(R.string.edit_workout_result_code);
+            Workout workout = new Workout(nameField.getText().toString(), mExercises);
+            intent.putExtra(key,workout);
+            setResult(RESULT_OK,intent);
+            finish();
+        });
+    }
+
+    private void addButtonInit(){
+        addButton = findViewById(R.id.activity_edit_workout_add_button);
+        addButton.setOnClickListener(view -> {
+            //TODO start exercise selector activity for result of an exercise
+            Intent intent = new Intent(this, SelectExerciseActivity.class);
+            startActivityForResult(intent,PICK_EXERCISE_REQUEST_CODE);
+        });
+    }
 
     private void recyclerViewInit(){
         //get the recycler view from the layout

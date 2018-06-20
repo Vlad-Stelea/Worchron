@@ -24,12 +24,14 @@ import vlad.Previews.ExercisePreview;
 import vlad.Previews.WorkoutPreview;
 import vlad.backend.Exercises.Exercise;
 import vlad.backend.Exercises.SelectableExercise;
+import vlad.backend.Workout;
 
 public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     ExercisesFragment mExercisesFragment;
-    public static GeneralDAO WorkoutDAO;
+    WorkoutsFragment mWorkoutFragment;
+    public static GeneralDAO<Workout,WorkoutPreview> WorkoutDAO;
     public static GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
 
     @Override
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         String EXERCISE_DIR = getString(R.string.exercise_dir);
         String firstTimeAccessKey = "firstTime";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        WorkoutDAO = new GeneralDAO(this, WORKOUT_DIR, new WorkoutPreview.WorkoutPreviewFactory());
+        WorkoutDAO = new GeneralDAO<>(this, WORKOUT_DIR, new WorkoutPreview.WorkoutPreviewFactory());
         ExerciseDAO = new GeneralDAO<>(this, EXERCISE_DIR, new SelectableExercise.SelectableExerciseFactory());
         if(!prefs.getBoolean(firstTimeAccessKey,false)){
             boolean workoutInit = WorkoutDAO.initializeDirectory();
@@ -80,13 +82,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == getResources().getInteger(R.integer.create_exercise_code)){
-            if(resultCode == RESULT_OK){
+        if(resultCode == RESULT_OK){
+            if(requestCode == getResources().getInteger(R.integer.create_exercise_code)){
                 String accessCode = getString(R.string.create_exercise_result);
                 SelectableExercise newExercise = (SelectableExercise) data.getSerializableExtra(accessCode);
                 ExerciseDAO.saveBackend(newExercise,this);
                 mExercisesFragment.addElement(newExercise);
+            } else if(requestCode == getResources().getInteger(R.integer.new_workout_request_code)){
+                //a completely new workout is returned
+                Workout workout = (Workout) data.getSerializableExtra(getString(R.string.edit_workout_result_code));
+                WorkoutDAO.saveBackend(workout,this);
+                mWorkoutFragment.addWorkout(workout);
+
+            }else if(requestCode == getResources().getInteger(R.integer.edit_workout_request_code)){
+                //TODO edit an existing exercise
             }
+
         }
     }
     private class PageAdapter extends FragmentPagerAdapter{
@@ -104,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new WorkoutsFragment();
+                    mWorkoutFragment = new WorkoutsFragment();
+                    return mWorkoutFragment;
                 case 1:
                     mExercisesFragment = new ExercisesFragment();
                     return mExercisesFragment;
