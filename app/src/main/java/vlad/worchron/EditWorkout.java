@@ -35,15 +35,27 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
     private ImageButton addButton, doneButton;
     private final static int PICK_EXERCISE_REQUEST_CODE = 1;
     private EditText nameField;
+    private String workoutKey;
+    //The position in the list of workouts that this is editing
+    private int editPosition = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_workout);
         //TODO change so that it gets a workout from the saved instanceState
-        mExercises = new ArrayList<>();
+        workoutKey = getString(R.string.edit_workout_workout_key);
         nameFieldInit();
         doneButtonInit();
         addButtonInit();
+        Workout currentWorkout = (Workout) getIntent().getSerializableExtra(workoutKey);
+        if(currentWorkout != null){
+            nameField.setText(currentWorkout.getName());
+            mExercises = currentWorkout.getExercises();
+            editPosition = getIntent().getIntExtra(getString(R.string.edit_workout_position_key),-1);
+        }else{
+            mExercises = new ArrayList<>();
+        }
         recyclerViewInit();
 
 
@@ -73,6 +85,7 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
             String key = getString(R.string.edit_workout_result_code);
             Workout workout = new Workout(nameField.getText().toString(), mExercises);
             intent.putExtra(key,workout);
+            intent.putExtra(getString(R.string.edit_workout_position_key), editPosition);
             setResult(RESULT_OK,intent);
             finish();
         });
@@ -81,7 +94,7 @@ public class EditWorkout extends AppCompatActivity implements EditExerciseDialog
     private void addButtonInit(){
         addButton = findViewById(R.id.activity_edit_workout_add_button);
         addButton.setOnClickListener(view -> {
-            //TODO start exercise selector activity for result of an exercise
+            //Start exercise selector activity for result of an exercise
             Intent intent = new Intent(this, SelectExerciseActivity.class);
             startActivityForResult(intent,PICK_EXERCISE_REQUEST_CODE);
         });

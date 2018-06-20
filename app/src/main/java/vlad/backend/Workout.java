@@ -27,6 +27,9 @@ public class Workout implements Serializable, Comparable<Workout>{
         mQueue = exercises;
     }
 
+    public List<WorkoutExercise> getExercises(){
+        return mQueue;
+    }
     /**
      * gets the name of the workout
      * @return the name of the workout object

@@ -91,6 +91,14 @@ public class WorkoutsFragment extends Fragment {
         Sorters.binaryInsert(mWorkouts, workout);
         mAdapter.notifyDataSetChanged();
     }
+
+    /**
+     * Let the fragment know that a workout was changed in some way
+     */
+    public void notifyWorkoutChanged(Workout toUpdate, int position){
+        mWorkouts.set(position,toUpdate);
+        mAdapter.notifyDataSetChanged();
+    }
     //<---------------Initializers----------------------------------->
 
     private void RecyclerViewInit(){
@@ -128,6 +136,15 @@ public class WorkoutsFragment extends Fragment {
         public void onBindViewHolder(MyAdaptor.MyViewHolder holder, int position) {
             WorkoutPreviewView view = (WorkoutPreviewView) holder.itemView;
             view.setWorkout(mWorkouts.get(position));
+            view.setOnLongClickListener(v ->{
+                Intent intent = new Intent(getActivity(), EditWorkout.class);
+                String key = getString(R.string.edit_workout_workout_key);
+                int requestCode = getResources().getInteger(R.integer.edit_workout_request_code);
+                intent.putExtra(key,view.getCurrentWorkout());
+                intent.putExtra(getString(R.string.edit_workout_position_key), position);
+                getActivity().startActivityForResult(intent, requestCode);
+                return true;
+            });
         }
 
         @Override
@@ -161,6 +178,10 @@ public class WorkoutsFragment extends Fragment {
         public void setWorkout(Workout newWorkout){
             currentWorkout = newWorkout;
             nameText.setText(currentWorkout.getName());
+        }
+
+        public Workout getCurrentWorkout(){
+            return currentWorkout;
         }
     }
 

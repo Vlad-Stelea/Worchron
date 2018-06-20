@@ -93,9 +93,12 @@ public class MainActivity extends AppCompatActivity {
                 Workout workout = (Workout) data.getSerializableExtra(getString(R.string.edit_workout_result_code));
                 WorkoutDAO.saveBackend(workout,this);
                 mWorkoutFragment.addWorkout(workout);
-
             }else if(requestCode == getResources().getInteger(R.integer.edit_workout_request_code)){
-                //TODO edit an existing exercise
+                //edit an existing exercise
+                Workout workout = (Workout) data.getSerializableExtra(getString(R.string.edit_workout_result_code));
+                int position = data.getIntExtra(getString(R.string.edit_workout_position_key), -1);
+                mWorkoutFragment.notifyWorkoutChanged(workout,position);
+                WorkoutDAO.saveBackend(workout,null);
             }
 
         }
