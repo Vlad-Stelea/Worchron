@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".EditWorkout" />
         <activity android:name=".CreateExerciseActivity" />
-        <activity android:name=".SelectExerciseActivity"></activity>
+        <activity android:name=".SelectExerciseActivity" />
+        <activity android:name=".RunWorkoutActivity"></activity>
     </application>
 
 </manifest>

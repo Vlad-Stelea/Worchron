@@ -12,6 +12,8 @@
     <string name="edit_workout_workout_key">edit workout</string>
     <!--Key to store and get which position in the list the workout being edited is in-->
     <string name="edit_workout_position_key">position</string>
+    <!--Key to store and get what workout is passed into the run workout activity-->
+    <string name="run_workout_workout_key">workout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

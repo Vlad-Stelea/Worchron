@@ -173,6 +173,13 @@ public class WorkoutsFragment extends Fragment {
             LayoutInflater.from(context).inflate(R.layout.workout_preview_view_layout,this);
             setPadding(0,0,0,1);
             nameText = this.findViewById(R.id.workout_preview_view_layout_workout_name);
+            setOnClickListener(view -> {
+                //Start the RunWorkoutActivity with the current workout passed in as a parameter
+                Intent intent = new Intent(getContext(),RunWorkoutActivity.class);
+                intent.putExtra(getContext().getString(R.string.run_workout_workout_key),
+                        currentWorkout);
+                getContext().startActivity(intent);
+            });
         }
 
         public void setWorkout(Workout newWorkout){
