@@ -60,7 +60,6 @@ public class RunWorkoutActivity extends AppCompatActivity {
         Log.d("TEST","Final Height is" + height);
         displayer.getLayoutParams().height = height;
         displayer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        displayer.setBackground(getDrawable(R.drawable.ic_add_circle_black_24dp));
     }
 
     /**
@@ -70,7 +69,6 @@ public class RunWorkoutActivity extends AppCompatActivity {
     private void positionWorkoutDisplayer(ConstraintLayout layout){
         mWorkoutDisplayer.setId(WORKOUT_DISPLAYER_ID);
         final int TOP_MARGIN = 0;
-        Log.d("ID", "ID IS " + mWorkoutDisplayer.getId());
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(layout);
         //Connect the top of the workoutdisplayer to bottom of workout name
