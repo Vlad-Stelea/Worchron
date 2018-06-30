@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vlad.backend.Exercises.Exercise;
@@ -31,10 +33,14 @@ public class RunWorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_workout);
+        //Get stuff passed in by the past activity
         mWorkout = (Workout) getIntent().getSerializableExtra(getString(R.string.run_workout_workout_key));
+        //Set  the title of the workout
+        ((TextView) findViewById(R.id.activity_run_workout_name_view)).setText(mWorkout.getName());
+        //Set up rendering options
         mExercises = mWorkout.getExercises();
         ViewGroup mainLayout = findViewById(R.id.activity_run_workout_layout);
-        mWorkoutDisplayer = new WorkoutDisplayer(this);
+        mWorkoutDisplayer = new WorkoutDisplayer(this, mExercises);
         mainLayout.addView(mWorkoutDisplayer);
         mainLayout.
                 getViewTreeObserver().
@@ -79,12 +85,17 @@ public class RunWorkoutActivity extends AppCompatActivity {
         layout.setConstraintSet(constraintSet);
     }
 
-    public static class WorkoutDisplayer extends LinearLayout{
+    /**
+     * Layout responsible for Displaying and transitioning through a workout
+     */
+    public static class WorkoutDisplayer extends LinearLayout implements RunExerciseFragment.RunExerciseFragmentCallback{
         //The maximum number of exercises to show at one time
         private int NUMBER_EXERCISES_DISPLAYED;
+        private List<RunExerciseFragment> mExerciseFragments;
 
-        public WorkoutDisplayer(Context context) {
+        public WorkoutDisplayer(Context context, List<WorkoutExercise> exercises) {
             super(context);
+            mExerciseFragments = generateRunExerciseFragmentsList(exercises);
         }
 
         /**
@@ -96,5 +107,22 @@ public class RunWorkoutActivity extends AppCompatActivity {
             NUMBER_EXERCISES_DISPLAYED = 3;
         }
 
+        /**
+         * TODO
+         * What to do when a fragment is done with it's actions
+         */
+        @Override
+        public void onExerciseDone() {
+
+        }
+
+        private List<RunExerciseFragment> generateRunExerciseFragmentsList(List<WorkoutExercise> exercises){
+            ArrayList<RunExerciseFragment> toReturn = new ArrayList<>();
+            //Loop through the exercises in the passed in list and convert them into the fragments
+            for(WorkoutExercise exercise: exercises){
+                toReturn.add(exercise.generateRunExerciseFragment(this));
+            }
+            return toReturn;
+        }
     }
 }

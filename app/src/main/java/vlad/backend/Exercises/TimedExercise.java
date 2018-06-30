@@ -2,6 +2,7 @@ package vlad.backend.Exercises;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.NumberPicker;
 
 import vlad.worchron.EditExerciseDialog;
 import vlad.worchron.R;
+import vlad.worchron.RunExerciseFragment;
+import vlad.worchron.RunTimedExerciseFragment;
 
 /**
  * Represents an Exercise that has to last for a certain amount of time
@@ -26,6 +29,12 @@ public class TimedExercise extends WorkoutExercise {
         super(exercise);
         mTime = time;
     }
+    //<--------------------Getters and Setters ------------------------>
+    public long getTimeInMillis(){
+        return mTime * 1000;
+    }
+
+    //<--------------------Formatting methods ------------------------->
 
     /**
      * gets the time of this exercise
@@ -71,6 +80,11 @@ public class TimedExercise extends WorkoutExercise {
     @Override
     public EditExerciseDialog getEditExerciseDialog() {
         return TimedExerciseEditDialog.newInstance(this);
+    }
+
+    @Override
+    public RunExerciseFragment generateRunExerciseFragment(RunExerciseFragment.RunExerciseFragmentCallback callback) {
+        return RunTimedExerciseFragment.newInstance(this, callback);
     }
 
     public static class TimedExerciseEditDialog extends EditExerciseDialog{

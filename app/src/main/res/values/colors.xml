@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--TODO change color scheme to look nicer-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -9,4 +10,5 @@
     <color name="action_bar_color">#776ED1</color>
     <color name="hint_color">#708090</color>
     <color name="workout_exercise_background">#7fff9b</color>
+    <color name="run_exercise_background_color">#7fff9b</color>
 </resources>
