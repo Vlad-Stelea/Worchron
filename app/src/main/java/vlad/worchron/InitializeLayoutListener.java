@@ -37,6 +37,7 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
 
     /**
      * Sets the workoutdisplayer to the right dimensions so it looks good
+     * TODO fix height detection
      * @param mainLayout The main layout of the activity
      * @param displayer {@link RunWorkoutActivity.WorkoutDisplayer} the displayer that needs to get sized
      */
@@ -61,6 +62,7 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
         mWorkoutDisplayer.setId(WORKOUT_DISPLAYER_ID);
         final int TOP_MARGIN = 5;
         final int SIDE_MARGIN = 20;
+        final int BOTTOM_MARGIN = 5;
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(layout);
         //Connect the top of the workoutdisplayer to bottom of workout name
@@ -79,6 +81,12 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
                 ConstraintSet.PARENT_ID,
                 ConstraintSet.LEFT,
                 SIDE_MARGIN);
+        //Connect bottom
+       /*constraintSet.connect(mWorkoutDisplayer.getId(),
+                ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM,
+                BOTTOM_MARGIN);*/
         constraintSet.applyTo(layout);
     }
     //<---------------------Callback declaration----------------------------------------->

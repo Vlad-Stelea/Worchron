@@ -82,7 +82,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
          * @return the maximum number of items to be displayed at one time
          */
         private void calculateNumberOfWorkoutsDisplayed(){
-            MAX_NUMBER_EXERCISES_DISPLAYED = 3;
+            MAX_NUMBER_EXERCISES_DISPLAYED = 4;
         }
 
         /**
@@ -105,14 +105,6 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
 
         }
 
-        private List<RunExerciseView> generateRunExerciseViewList(Context context, List<WorkoutExercise> exercises){
-            ArrayList<RunExerciseView> toReturn = new ArrayList<>();
-            //Loop through the exercises in the passed in list and convert them into the fragments
-            for(WorkoutExercise exercise: exercises){
-                toReturn.add(exercise.generateRunExerciseFragment(context,this));
-            }
-            return toReturn;
-        }
     }
 
 }

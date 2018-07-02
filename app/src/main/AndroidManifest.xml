@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditWorkout" />
+        <activity android:name=".EditWorkout"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".CreateExerciseActivity" />
         <activity android:name=".SelectExerciseActivity" />
         <activity android:name=".RunWorkoutActivity"></activity>
