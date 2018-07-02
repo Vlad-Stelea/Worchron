@@ -55,24 +55,6 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
                 .removeOnGlobalLayoutListener(listener);
     }
 
-    /*@Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs){
-        View view = super.onCreateView(parent, name, context, attrs);
-        setWorkoutDisplayerDimensions(mainLayout, mWorkoutDisplayer);
-        positionWorkoutDisplayer((ConstraintLayout) mainLayout);
-        mWorkoutDisplayer.drawInitialViews(this);
-        return view;
-    }
-
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs){
-        View view = this.onCreateView(null, name, context, attrs);
-        return view;
-    }*/
-
-
-
-
     /**
      * Layout responsible for Displaying and transitioning through a workout
      */
@@ -111,22 +93,6 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
             for(int i = 0; i < MAX_NUMBER_EXERCISES_DISPLAYED; i++){
                 RunExerciseView view = mExercises.get(i).generateRunExerciseFragment(context, this);
                 this.addView(view);
-            }
-        }
-
-        /**
-         * Removes all vies in the displayer and
-         * Fills this Displayer with containers for fragments
-         * AKA FrameLayouts
-         */
-        private void fillWithFrameLayouts(Context context){
-            this.removeAllViews();
-            for(int i = 0; i < MAX_NUMBER_EXERCISES_DISPLAYED; i++){
-                FrameLayout toAdd = new FrameLayout(context);
-                this.addView(toAdd);
-                toAdd.getLayoutParams().width = LayoutParams.MATCH_PARENT;
-                toAdd.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                toAdd.setId(i);
             }
         }
 

@@ -9,7 +9,7 @@
 
     <!-- Display the name of the exercise-->
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/view_run_timed_exercise_name_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Run"
@@ -23,7 +23,7 @@
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/fragment_run_timed_exercise_time_view"
+    android:id="@+id/view_run_timed_exercise_time_view"
     android:gravity="center_horizontal|center_vertical"
     android:background="@color/run_exercise_background_color"
     android:padding="@dimen/run_exercise_time_padding"

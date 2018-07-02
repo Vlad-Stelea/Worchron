@@ -59,7 +59,8 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
      */
     private void positionWorkoutDisplayer(ConstraintLayout layout){
         mWorkoutDisplayer.setId(WORKOUT_DISPLAYER_ID);
-        final int TOP_MARGIN = 0;
+        final int TOP_MARGIN = 5;
+        final int SIDE_MARGIN = 20;
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(layout);
         //Connect the top of the workoutdisplayer to bottom of workout name
@@ -67,7 +68,18 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
                 ConstraintSet.TOP, R.id.activity_run_workout_name_view,
                 ConstraintSet.BOTTOM,
                 TOP_MARGIN);
-        layout.setConstraintSet(constraintSet);
+        //Connect sides
+        constraintSet.connect(mWorkoutDisplayer.getId(),
+                ConstraintSet.RIGHT,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.RIGHT,
+                SIDE_MARGIN);
+        constraintSet.connect(mWorkoutDisplayer.getId(),
+                ConstraintSet.LEFT,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.LEFT,
+                SIDE_MARGIN);
+        constraintSet.applyTo(layout);
     }
     //<---------------------Callback declaration----------------------------------------->
     public interface FinishInitializeCallback{

@@ -4,6 +4,7 @@ package vlad.worchron;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import vlad.backend.Exercises.TimedExercise;
@@ -14,7 +15,7 @@ import vlad.backend.Exercises.TimedExercise;
  */
 public class RunTimedExerciseView extends RunExerciseView {
     private TimedExercise mExercise;
-    private TextView mTimeView;
+    private TextView mTimeView, mNameView;
     private CountDownTimer mCountDownTimer;
 
 
@@ -32,8 +33,12 @@ public class RunTimedExerciseView extends RunExerciseView {
         //Set up the GUI stuff for this View
         //inflate the correct layout
         inflate(context, R.layout.view_run_timed_exercise,this);
+        //Set up the text view to display the name of the exercise
+        mNameView = findViewById(R.id.view_run_timed_exercise_name_view);
+        mNameView.setText(exercise.getName());
         //Set up the text view to display time
-        mTimeView = findViewById(R.id.fragment_run_timed_exercise_time_view);
+        mTimeView = findViewById(R.id.view_run_timed_exercise_time_view);
+        displayTime(mExercise.getTimeInMillis());
         //Set up the countdown timer
         mCountDownTimer = new CountDownTimer(mExercise.getTimeInMillis(), 100) {
             @Override
@@ -46,9 +51,25 @@ public class RunTimedExerciseView extends RunExerciseView {
                 mCallback.onExerciseDone();
             }
         };
-
+        setUpDimensions();
+        setUpSpacing();
     }
 
+    //<-------------------------Formatting methods-------------------------->
+
+    private void setUpDimensions(){
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, //width
+                ViewGroup.LayoutParams.WRAP_CONTENT);//height
+        setLayoutParams(params);
+    }
+
+    private void setUpSpacing(){
+        final int TOP_MARGIN = 3;
+        MarginLayoutParams marginParams = new MarginLayoutParams(getLayoutParams());
+        marginParams.topMargin = TOP_MARGIN;
+        setLayoutParams(marginParams);
+    }
 
 //<----------------------Overriding methods---------------------------->
     /**
