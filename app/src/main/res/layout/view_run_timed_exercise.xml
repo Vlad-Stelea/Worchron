@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/run_exercise_background_color"
-    tools:context=".RunTimedExerciseFragment">
+    tools:context=".RunTimedExerciseView">
 
     <!-- Display the name of the exercise-->
     <TextView

@@ -1,5 +1,7 @@
 package vlad.worchron;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -9,25 +11,25 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import vlad.backend.Exercises.Exercise;
 import vlad.backend.Exercises.WorkoutExercise;
 import vlad.backend.Workout;
 
 /**
  * Activity responsible for running and displaying all exercises in a workout
  */
-public class RunWorkoutActivity extends AppCompatActivity {
+public class RunWorkoutActivity extends AppCompatActivity implements InitializeLayoutListener.FinishInitializeCallback{
     private Workout mWorkout;
     private List<WorkoutExercise> mExercises;
     private WorkoutDisplayer mWorkoutDisplayer;
-    private static final int WORKOUT_DISPLAYER_ID = 27;
+    private ViewGroup mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,63 +41,57 @@ public class RunWorkoutActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.activity_run_workout_name_view)).setText(mWorkout.getName());
         //Set up rendering options
         mExercises = mWorkout.getExercises();
-        ViewGroup mainLayout = findViewById(R.id.activity_run_workout_layout);
+        mainLayout = findViewById(R.id.activity_run_workout_layout);
         mWorkoutDisplayer = new WorkoutDisplayer(this, mExercises);
         mainLayout.addView(mWorkoutDisplayer);
-        mainLayout.
-                getViewTreeObserver().
-                addOnGlobalLayoutListener(() ->{
-            setWorkoutDisplayerDimensions(mainLayout, mWorkoutDisplayer);
-            positionWorkoutDisplayer((ConstraintLayout) mainLayout);
-        });
+        InitializeLayoutListener listener = new InitializeLayoutListener(mainLayout, mWorkoutDisplayer, this);
+        mainLayout.getViewTreeObserver()
+                .addOnGlobalLayoutListener(listener);
+    }
+    //<-----------------------Overriding methods--------------------------------->
+    @Override
+    public void onFinishDrawing(InitializeLayoutListener listener) {
+        mainLayout.getViewTreeObserver()
+                .removeOnGlobalLayoutListener(listener);
     }
 
-    /**
-     * Sets the workoutdisplayer to the right dimensions so it looks good
-     * @param mainLayout The main layout of the activity
-     * @param displayer {@link WorkoutDisplayer} the displayer that needs to get sized
-     */
-    private void setWorkoutDisplayerDimensions(ViewGroup mainLayout, WorkoutDisplayer displayer){
-        final int margins = 100;
-        int height = mainLayout.getHeight();
-        Log.d("TEST","Original Height is" + height);
-        //Loop through all the children and subtract from the total height to find how much space this displayer has
-        for(int i = 0; i < mainLayout.getChildCount(); i++){
-            height -= mainLayout.getChildAt(i).getHeight();
-        }
-        Log.d("TEST","Final Height is" + height);
-        displayer.getLayoutParams().height = height;
-        displayer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+    /*@Override
+    public View onCreateView(View parent, String name, Context context, AttributeSet attrs){
+        View view = super.onCreateView(parent, name, context, attrs);
+        setWorkoutDisplayerDimensions(mainLayout, mWorkoutDisplayer);
+        positionWorkoutDisplayer((ConstraintLayout) mainLayout);
+        mWorkoutDisplayer.drawInitialViews(this);
+        return view;
     }
 
-    /**
-     * Constrains the workoutdisplayer to display as the last object to be displayed
-     * @param layout the layout to be edited
-     */
-    private void positionWorkoutDisplayer(ConstraintLayout layout){
-        mWorkoutDisplayer.setId(WORKOUT_DISPLAYER_ID);
-        final int TOP_MARGIN = 0;
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(layout);
-        //Connect the top of the workoutdisplayer to bottom of workout name
-        constraintSet.connect(mWorkoutDisplayer.getId(),
-                ConstraintSet.TOP, R.id.activity_run_workout_name_view,
-                ConstraintSet.BOTTOM,
-                TOP_MARGIN);
-        layout.setConstraintSet(constraintSet);
-    }
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs){
+        View view = this.onCreateView(null, name, context, attrs);
+        return view;
+    }*/
+
+
+
 
     /**
      * Layout responsible for Displaying and transitioning through a workout
      */
-    public static class WorkoutDisplayer extends LinearLayout implements RunExerciseFragment.RunExerciseFragmentCallback{
+    public static class WorkoutDisplayer extends LinearLayout implements RunExerciseView.RunExerciseFragmentCallback{
         //The maximum number of exercises to show at one time
-        private int NUMBER_EXERCISES_DISPLAYED;
-        private List<RunExerciseFragment> mExerciseFragments;
+        private int MAX_NUMBER_EXERCISES_DISPLAYED;
+        private List<WorkoutExercise> mExercises;
 
-        public WorkoutDisplayer(Context context, List<WorkoutExercise> exercises) {
+        /**
+         * Instantiates a {@link WorkoutDisplayer}
+         * @param context The {@link Context} that this is created from
+         * @param exercises List of {@link WorkoutExercise}'s that represent the exercises which this Displayer will go through
+         */
+        public WorkoutDisplayer(Context context,
+                                List<WorkoutExercise> exercises) {
             super(context);
-            mExerciseFragments = generateRunExerciseFragmentsList(exercises);
+            mExercises = exercises;
+            drawInitialViews(context);
+            setOrientation(VERTICAL);
         }
 
         /**
@@ -103,8 +99,35 @@ public class RunWorkoutActivity extends AppCompatActivity {
          * Calculates how many items should be displayed based on the size of this layout
          * @return the maximum number of items to be displayed at one time
          */
-        public void calculateNumberOfWorkoutsDisplayed(){
-            NUMBER_EXERCISES_DISPLAYED = 3;
+        private void calculateNumberOfWorkoutsDisplayed(){
+            MAX_NUMBER_EXERCISES_DISPLAYED = 3;
+        }
+
+        /**
+         * Adds the Maximum number of possible fragments to the layout
+         */
+        public void drawInitialViews(Context context){
+            calculateNumberOfWorkoutsDisplayed();
+            for(int i = 0; i < MAX_NUMBER_EXERCISES_DISPLAYED; i++){
+                RunExerciseView view = mExercises.get(i).generateRunExerciseFragment(context, this);
+                this.addView(view);
+            }
+        }
+
+        /**
+         * Removes all vies in the displayer and
+         * Fills this Displayer with containers for fragments
+         * AKA FrameLayouts
+         */
+        private void fillWithFrameLayouts(Context context){
+            this.removeAllViews();
+            for(int i = 0; i < MAX_NUMBER_EXERCISES_DISPLAYED; i++){
+                FrameLayout toAdd = new FrameLayout(context);
+                this.addView(toAdd);
+                toAdd.getLayoutParams().width = LayoutParams.MATCH_PARENT;
+                toAdd.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                toAdd.setId(i);
+            }
         }
 
         /**
@@ -116,13 +139,14 @@ public class RunWorkoutActivity extends AppCompatActivity {
 
         }
 
-        private List<RunExerciseFragment> generateRunExerciseFragmentsList(List<WorkoutExercise> exercises){
-            ArrayList<RunExerciseFragment> toReturn = new ArrayList<>();
+        private List<RunExerciseView> generateRunExerciseViewList(Context context, List<WorkoutExercise> exercises){
+            ArrayList<RunExerciseView> toReturn = new ArrayList<>();
             //Loop through the exercises in the passed in list and convert them into the fragments
             for(WorkoutExercise exercise: exercises){
-                toReturn.add(exercise.generateRunExerciseFragment(this));
+                toReturn.add(exercise.generateRunExerciseFragment(context,this));
             }
             return toReturn;
         }
     }
+
 }

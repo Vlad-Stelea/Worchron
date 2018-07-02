@@ -1,12 +1,9 @@
 package vlad.worchron;
 
 
-import android.os.Bundle;
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import vlad.backend.Exercises.TimedExercise;
@@ -15,43 +12,29 @@ import vlad.backend.Exercises.TimedExercise;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RunTimedExerciseFragment extends RunExerciseFragment {
+public class RunTimedExerciseView extends RunExerciseView {
     private TimedExercise mExercise;
     private TextView mTimeView;
     private CountDownTimer mCountDownTimer;
 
 
-    public RunTimedExerciseFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Instantiates a new instance of a RunTimedExerciseFragment
+     * @param context the {@link Context} that this is being called from
      * @param exercise the exercise to display
-     * @param callingLayout {@link vlad.worchron.RunExerciseFragment.RunExerciseFragmentCallback} where this is being created from
-     * @return A new {@link RunTimedExerciseFragment} with proper parameters initialized
+     * @param callback {@link vlad.worchron.RunExerciseView.RunExerciseFragmentCallback} where this is being created from
      */
-    public static RunTimedExerciseFragment newInstance(TimedExercise exercise, RunExerciseFragmentCallback callingLayout){
-        RunTimedExerciseFragment toReturn = new RunTimedExerciseFragment();
-        toReturn.mExercise = exercise;
-        toReturn.mCallback = callingLayout;
-        return toReturn;
-    }
-//<----------------------Overriding methods---------------------------->
-    /**
-     * Lets the RunExerciseFragment know it should start doing it's thing
-     */
-    @Override
-    public void startExercise() {
-        mCountDownTimer.start();
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_run_timed_exercise, container, false);
-        //Set up the correct text Views
-        mTimeView = view.findViewById(R.id.fragment_run_timed_exercise_time_view);
+    public RunTimedExerciseView(Context context,
+                                TimedExercise exercise,
+                                RunExerciseFragmentCallback callback){
+        super(context, callback);
+        mExercise = exercise;
+        //Set up the GUI stuff for this View
+        //inflate the correct layout
+        inflate(context, R.layout.view_run_timed_exercise,this);
+        //Set up the text view to display time
+        mTimeView = findViewById(R.id.fragment_run_timed_exercise_time_view);
+        //Set up the countdown timer
         mCountDownTimer = new CountDownTimer(mExercise.getTimeInMillis(), 100) {
             @Override
             public void onTick(long timeLeft) {
@@ -63,8 +46,19 @@ public class RunTimedExerciseFragment extends RunExerciseFragment {
                 mCallback.onExerciseDone();
             }
         };
-        return view;
+
     }
+
+
+//<----------------------Overriding methods---------------------------->
+    /**
+     * Lets the RunExerciseFragment know it should start doing it's thing
+     */
+    @Override
+    public void startExercise() {
+        mCountDownTimer.start();
+    }
+
 //<-------------------------Time formatting ------------------------------------>
     /**
      * Takes in a time in milliseconds and formats the textviews to display the correct time

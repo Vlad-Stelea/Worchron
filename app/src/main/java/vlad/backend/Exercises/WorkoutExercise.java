@@ -1,14 +1,11 @@
 package vlad.backend.Exercises;
 
-import android.app.Activity;
 import android.content.Context;
 
 import java.io.Serializable;
 
 import vlad.worchron.EditExerciseDialog;
-import vlad.worchron.EditWorkout;
-import vlad.worchron.RenameDialog;
-import vlad.worchron.RunExerciseFragment;
+import vlad.worchron.RunExerciseView;
 
 /**
  * Class to represent an exercise once it's been set up for a workout
@@ -32,10 +29,11 @@ public abstract class WorkoutExercise implements Serializable {
     public abstract EditExerciseDialog getEditExerciseDialog();
 
     /**
-     * Converts the workout exercise that this is called from into the corresponding {@link RunExerciseFragment}
-     * @param callback {@link vlad.worchron.RunExerciseFragment.RunExerciseFragmentCallback} Class that implements the correct callback so the fragment can interact with it
-     * @return The correct {@link RunExerciseFragment} that represents this exercise and should be run
+     * Converts the workout exercise that this is called from into the corresponding {@link RunExerciseView}
+     * @param context the context from where this is called
+     * @param callback {@link vlad.worchron.RunExerciseView.RunExerciseFragmentCallback} Class that implements the correct callback so the fragment can interact with it
+     * @return The correct {@link RunExerciseView} that represents this exercise and should be run
      */
-    public abstract RunExerciseFragment generateRunExerciseFragment(RunExerciseFragment.RunExerciseFragmentCallback callback);
+    public abstract RunExerciseView generateRunExerciseFragment(Context context, RunExerciseView.RunExerciseFragmentCallback callback);
 
 }

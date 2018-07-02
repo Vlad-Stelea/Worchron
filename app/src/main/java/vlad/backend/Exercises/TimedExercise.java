@@ -10,8 +10,8 @@ import android.widget.NumberPicker;
 
 import vlad.worchron.EditExerciseDialog;
 import vlad.worchron.R;
-import vlad.worchron.RunExerciseFragment;
-import vlad.worchron.RunTimedExerciseFragment;
+import vlad.worchron.RunExerciseView;
+import vlad.worchron.RunTimedExerciseView;
 
 /**
  * Represents an Exercise that has to last for a certain amount of time
@@ -83,8 +83,8 @@ public class TimedExercise extends WorkoutExercise {
     }
 
     @Override
-    public RunExerciseFragment generateRunExerciseFragment(RunExerciseFragment.RunExerciseFragmentCallback callback) {
-        return RunTimedExerciseFragment.newInstance(this, callback);
+    public RunExerciseView generateRunExerciseFragment(Context context, RunExerciseView.RunExerciseFragmentCallback callback) {
+        return new RunTimedExerciseView(context, this, callback);
     }
 
     public static class TimedExerciseEditDialog extends EditExerciseDialog{

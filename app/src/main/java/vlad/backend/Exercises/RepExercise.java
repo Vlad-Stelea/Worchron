@@ -1,19 +1,16 @@
 package vlad.backend.Exercises;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import vlad.worchron.EditExerciseDialog;
-import vlad.worchron.EditWorkout;
 import vlad.worchron.R;
 import vlad.worchron.RenameDialog;
+import vlad.worchron.RunExerciseView;
 
 /**
  * Class that represents an exercise that is done in reps eg. curls, pushups
@@ -52,6 +49,19 @@ public class RepExercise extends WorkoutExercise {
     public EditExerciseDialog getEditExerciseDialog() {
         return RepExerciseEditDialog.newInstance(this);
     }
+
+    /**
+     * Converts the workout exercise that this is called from into the corresponding {@link RunExerciseView}
+     * TODO
+     * @param context  the context from where this is called
+     * @param callback {@link RunExerciseView.RunExerciseFragmentCallback} Class that implements the correct callback so the fragment can interact with it
+     * @return The correct {@link RunExerciseView} that represents this exercise and should be run
+     */
+    @Override
+    public RunExerciseView generateRunExerciseFragment(Context context, RunExerciseView.RunExerciseFragmentCallback callback) {
+        return null;
+    }
+
 
     //<-------------------EditDialogStuff-------------------------------->
 
