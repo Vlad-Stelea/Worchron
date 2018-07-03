@@ -17,6 +17,7 @@ public class RunTimedExerciseView extends RunExerciseView {
     private TimedExercise mExercise;
     private TextView mTimeView, mNameView;
     private CountDownTimer mCountDownTimer;
+    private long remainingTime;
 
 
     /**
@@ -30,6 +31,7 @@ public class RunTimedExerciseView extends RunExerciseView {
                                 RunExerciseFragmentCallback callback){
         super(context, callback);
         mExercise = exercise;
+        remainingTime = mExercise.getTimeInMillis();
         //Set up the GUI stuff for this View
         //inflate the correct layout
         inflate(context, R.layout.view_run_timed_exercise,this);
@@ -40,17 +42,6 @@ public class RunTimedExerciseView extends RunExerciseView {
         mTimeView = findViewById(R.id.view_run_timed_exercise_time_view);
         displayTime(mExercise.getTimeInMillis());
         //Set up the countdown timer
-        mCountDownTimer = new CountDownTimer(mExercise.getTimeInMillis(), 100) {
-            @Override
-            public void onTick(long timeLeft) {
-                displayTime(timeLeft);
-            }
-
-            @Override
-            public void onFinish() {
-                mCallback.onExerciseDone();
-            }
-        };
         setUpDimensions();
         setUpSpacing();
     }
@@ -77,7 +68,33 @@ public class RunTimedExerciseView extends RunExerciseView {
      */
     @Override
     public void startExercise() {
-        mCountDownTimer.start();
+        mCountDownTimer = new CountDownTimer(remainingTime, 100) {
+            @Override
+            public void onTick(long timeLeft) {
+                displayTime(timeLeft);
+                remainingTime = timeLeft;
+            }
+
+            @Override
+            public void onFinish() {
+                mCallback.onExerciseDone();
+            }
+        }.start();
+    }
+
+    /**
+     * Pauses the exercise
+     */
+    @Override
+    public void pauseExercise() {
+        mCountDownTimer.cancel();
+    }
+
+    @Override
+    public void resetExercise() {
+        remainingTime = mExercise.getTimeInMillis();
+        mCountDownTimer.cancel();
+        displayTime(remainingTime);
     }
 
 //<-------------------------Time formatting ------------------------------------>

@@ -1,0 +1,14 @@
+<vector android:height="54dp" android:viewportHeight="200"
+    android:viewportWidth="200" android:width="54dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="@color/workout_control_background"
+        android:pathData="M1.512,100.5a98.744,99.5 0,1 0,197.488 0a98.744,99.5 0,1 0,-197.488 0z" android:strokeWidth="0.26286876"/>
+    <path android:fillColor="@color/workout_control_foreground"
+        android:pathData="M138.339,35.202h27.97v124.732h-27.97z" android:strokeWidth="0.2880165"/>
+    <path android:fillAlpha="0" android:fillColor="@color/workout_control_foreground"
+        android:pathData="M-6.048,15.548 L46.707,-48.762 68.197,21.064 97.513,98.906 26.297,82.603 -55.774,69.071Z"
+        android:strokeAlpha="0" android:strokeWidth="0.26458332"/>
+    <path android:fillColor="@color/workout_control_foreground"
+        android:pathData="M43.845,44.274 L123.68,101.079 42.864,156.041Z"
+        android:strokeAlpha="1" android:strokeColor="@color/workout_control_foreground"
+        android:strokeLineCap="butt" android:strokeLineJoin="miter" android:strokeWidth="0.3745755"/>
+</vector>

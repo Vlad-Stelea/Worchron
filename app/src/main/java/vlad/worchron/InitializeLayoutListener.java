@@ -50,7 +50,7 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
             height -= mainLayout.getChildAt(i).getHeight();
         }
         Log.d("TEST","Final Height is" + height);
-        displayer.getLayoutParams().height = height;
+        displayer.getLayoutParams().height = 1731;//TODO change
         displayer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
     }
 

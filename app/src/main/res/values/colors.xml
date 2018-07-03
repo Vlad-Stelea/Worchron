@@ -3,7 +3,7 @@
     <!--TODO change color scheme to look nicer-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/background</color>
     <color name="background">#E0E0FF</color>
     <color name="textColor">#000060</color>
     <color name="addWorkoutBackDefault">#1A40D8</color>
@@ -11,4 +11,6 @@
     <color name="hint_color">#708090</color>
     <color name="workout_exercise_background">#7fff9b</color>
     <color name="run_exercise_background_color">#7fff9b</color>
+    <color name="workout_control_foreground">#776ED1</color>
+    <color name="workout_control_background">#c1c1c1</color>
 </resources>

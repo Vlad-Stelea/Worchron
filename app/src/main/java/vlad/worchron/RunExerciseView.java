@@ -19,6 +19,13 @@ public abstract class RunExerciseView extends LinearLayout {
      * Lets the RunExerciseFragment know it should start doing it's thing
      */
     public abstract void startExercise();
+
+    /**
+     * Pauses the exercise
+     */
+    public abstract void pauseExercise();
+
+    public abstract void resetExercise();
     /**
      * Interface to declare methods that interact with the layout that
      *  the fragment is contained in

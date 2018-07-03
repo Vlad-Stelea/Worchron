@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
     private List<WorkoutExercise> mExercises;
     private WorkoutDisplayer mWorkoutDisplayer;
     private ViewGroup mainLayout;
+    private FloatingActionButton mLeftControlButton, mCenterControlButton, mRightControlButton;
+    private CurrentExerciseState mExerciseState = CurrentExerciseState.PAUSED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,14 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
         mWorkout = (Workout) getIntent().getSerializableExtra(getString(R.string.run_workout_workout_key));
         //Set  the title of the workout
         ((TextView) findViewById(R.id.activity_run_workout_name_view)).setText(mWorkout.getName());
+        //Set up player control buttons
+        mLeftControlButton = findViewById(R.id.activity_run_workout_left_button);
+        mLeftControlButton.setOnClickListener(this::onLeftButtonClicked);
+        mRightControlButton = findViewById(R.id.activity_run_workout_right_button);
+        mRightControlButton.setOnClickListener(this::onRightButtonClicked);
+        mCenterControlButton = findViewById(R.id.activity_run_workout_center_button);
+        mCenterControlButton.setOnClickListener(this::onCenterButtonClicked);
+
         //Set up rendering options
         mExercises = mWorkout.getExercises();
         mainLayout = findViewById(R.id.activity_run_workout_layout);
@@ -48,6 +60,41 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
         mainLayout.getViewTreeObserver()
                 .addOnGlobalLayoutListener(listener);
     }
+
+    //<-----------------------ActionListenerEvents------------------------------->
+    //Buttons
+
+    private void onLeftButtonClicked(View view){
+        if(mExerciseState == CurrentExerciseState.PAUSED){
+            mWorkoutDisplayer.startPreviousExercise();
+            mWorkoutDisplayer.pauseExercise();
+            mCenterControlButton.setImageDrawable(getDrawable(R.drawable.ic_play));
+        }else if(mExerciseState == CurrentExerciseState.RUNNING){
+            mWorkoutDisplayer.restartExercise();
+            mExerciseState = CurrentExerciseState.PAUSED;
+            mCenterControlButton.setImageDrawable(getDrawable(R.drawable.ic_play));
+        }
+
+    }
+
+
+    private void onCenterButtonClicked(View view){
+        if(mExerciseState == CurrentExerciseState.PAUSED){
+            mCenterControlButton.setImageDrawable(getDrawable(R.drawable.ic_pause));
+            mExerciseState = CurrentExerciseState.RUNNING;
+            mWorkoutDisplayer.startExercise();
+        }else if(mExerciseState == CurrentExerciseState.RUNNING){
+            mCenterControlButton.setImageDrawable(getDrawable(R.drawable.ic_play));
+            mExerciseState = CurrentExerciseState.PAUSED;
+            mWorkoutDisplayer.pauseExercise();
+        }
+    }
+
+
+    private void onRightButtonClicked(View view){
+        mWorkoutDisplayer.startNextExercise();
+    }
+
     //<-----------------------Overriding methods--------------------------------->
     @Override
     public void onFinishDrawing(InitializeLayoutListener listener) {
@@ -62,6 +109,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
         //The maximum number of exercises to show at one time
         private int MAX_NUMBER_EXERCISES_DISPLAYED;
         private List<WorkoutExercise> mExercises;
+        private int mCurrentIndex;
 
         /**
          * Instantiates a {@link WorkoutDisplayer}
@@ -74,6 +122,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
             mExercises = exercises;
             drawInitialViews(context);
             setOrientation(VERTICAL);
+            mCurrentIndex = 0;
         }
 
         /**
@@ -82,7 +131,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
          * @return the maximum number of items to be displayed at one time
          */
         private void calculateNumberOfWorkoutsDisplayed(){
-            MAX_NUMBER_EXERCISES_DISPLAYED = 4;
+            MAX_NUMBER_EXERCISES_DISPLAYED = 3;
         }
 
         /**
@@ -102,9 +151,80 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
          */
         @Override
         public void onExerciseDone() {
-
+            startNextExercise();
         }
 
+        public void startNextExercise(){
+            try {
+                //Remove the top view which is the exercise which just finished
+                removeViewAt(0);
+                int indexToAdd = mCurrentIndex + MAX_NUMBER_EXERCISES_DISPLAYED;
+                //Check to make sure that List does not go out of bounds
+                if (indexToAdd < mExercises.size()) {
+                    //Add next view
+                    this.addView(mExercises.get(indexToAdd).generateRunExerciseFragment(getContext(),
+                            this));
+                }
+                //Increment the current index
+                mCurrentIndex++;
+                startExercise();
+            }catch(NullPointerException e){
+                //Do nothing
+            }
+        }
+
+        public void startPreviousExercise(){
+            //Check to make sure that the current item isn't the first one
+            if(mCurrentIndex != 0) {
+                //Check if remove of last child is needed
+                if (getChildCount() == MAX_NUMBER_EXERCISES_DISPLAYED) {
+                    //Remove the last view
+                    int lastViewIndex = getChildCount() - 1;
+                    removeViewAt(lastViewIndex);
+                }
+                //Resets the currently running exercise
+                try {
+                    ((RunExerciseView) getChildAt(0)).resetExercise();
+                }catch(NullPointerException e){
+                    //Do nothing
+                }
+                //Decrement the current index
+                mCurrentIndex--;
+                //add the previous view to the top
+                RunExerciseView toAdd = mExercises.get(mCurrentIndex).
+                        generateRunExerciseFragment(getContext(),this);
+                addView(toAdd,0);
+                toAdd.startExercise();
+            }
+        }
+
+        /**
+         * Starts the exercise at the top of this view
+         */
+        public void startExercise(){
+            RunExerciseView toStart = ((RunExerciseView)getChildAt(0));
+            if(toStart != null)
+                    toStart.startExercise();
+        }
+
+        /**
+         * Pauses the exercise at the top of this view
+         */
+        public void pauseExercise(){
+            ((RunExerciseView)getChildAt(0)).pauseExercise();
+        }
+
+        /**
+         * Restarts the currently running exercise from the top
+         */
+        public void restartExercise(){
+            RunExerciseView toRestart = (RunExerciseView) getChildAt(0);
+            toRestart.resetExercise();
+        }
+    }
+
+    private enum CurrentExerciseState{
+        PAUSED, RUNNING
     }
 
 }

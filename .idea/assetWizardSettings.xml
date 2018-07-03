@@ -28,9 +28,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="1188ad" />
-                            <entry key="outputName" value="pause_circle_clip_art" />
-                            <entry key="sourceFile" value="C:\Users\vlads" />
+                            <entry key="height" value="200" />
+                            <entry key="outputName" value="ic_play" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="E:\Documents\Inkscape\Play.svg" />
+                            <entry key="width" value="200" />
                           </map>
                         </option>
                       </PersistentState>
