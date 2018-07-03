@@ -98,6 +98,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
     //<-----------------------Overriding methods--------------------------------->
     @Override
     public void onFinishDrawing(InitializeLayoutListener listener) {
+        mWorkoutDisplayer.drawInitialViews(this);
         mainLayout.getViewTreeObserver()
                 .removeOnGlobalLayoutListener(listener);
     }
@@ -120,7 +121,6 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
                                 List<WorkoutExercise> exercises) {
             super(context);
             mExercises = exercises;
-            drawInitialViews(context);
             setOrientation(VERTICAL);
             mCurrentIndex = 0;
         }
@@ -131,7 +131,12 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
          * @return the maximum number of items to be displayed at one time
          */
         private void calculateNumberOfWorkoutsDisplayed(){
-            MAX_NUMBER_EXERCISES_DISPLAYED = 3;
+            int height = getLayoutParams().height;
+            int viewHeight = getResources().getDimensionPixelSize(R.dimen.run_exercise_height);
+            MAX_NUMBER_EXERCISES_DISPLAYED = height/viewHeight;
+            if(mExercises.size() < MAX_NUMBER_EXERCISES_DISPLAYED){
+                MAX_NUMBER_EXERCISES_DISPLAYED = mExercises.size();
+            }
         }
 
         /**
@@ -220,7 +225,8 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
          */
         public void restartExercise(){
             RunExerciseView toRestart = (RunExerciseView) getChildAt(0);
-            toRestart.resetExercise();
+            if(toRestart!= null)
+                toRestart.resetExercise();
         }
     }
 
