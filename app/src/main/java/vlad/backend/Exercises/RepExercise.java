@@ -11,6 +11,7 @@ import vlad.worchron.EditExerciseDialog;
 import vlad.worchron.R;
 import vlad.worchron.RenameDialog;
 import vlad.worchron.RunExerciseView;
+import vlad.worchron.RunRepExerciseView;
 
 /**
  * Class that represents an exercise that is done in reps eg. curls, pushups
@@ -59,7 +60,7 @@ public class RepExercise extends WorkoutExercise {
      */
     @Override
     public RunExerciseView generateRunExerciseFragment(Context context, RunExerciseView.RunExerciseFragmentCallback callback) {
-        return null;
+        return new RunRepExerciseView(context,this, callback);
     }
 
 

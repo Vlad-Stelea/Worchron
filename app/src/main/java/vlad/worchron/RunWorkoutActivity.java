@@ -211,7 +211,8 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
          * Pauses the exercise at the top of this view
          */
         public void pauseExercise(){
-            ((RunExerciseView)getChildAt(0)).pauseExercise();
+            if(getChildCount()>0)
+                ((RunExerciseView)getChildAt(0)).pauseExercise();
         }
 
         /**

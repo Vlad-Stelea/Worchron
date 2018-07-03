@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/run_exercise_background_color">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_run_rep_exercise_name"
+        android:gravity="center"
+        android:text="Curl"
+        android:textSize="@dimen/run_exercise_name_size"
+        android:background="@color/run_exercise_background_color"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_run_rep_exercise_sets"
+        android:textSize="@dimen/run_exercise_time_text_size"
+        android:text="Sets:0"
+        android:gravity="center"
+        android:background="@color/run_exercise_background_color"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_run_rep_exercise_reps"
+        android:textSize="@dimen/run_exercise_time_text_size"
+        android:text="Reps:0"
+        android:gravity="center"
+        android:background="@color/run_exercise_background_color"/>
+
+
+</LinearLayout>
