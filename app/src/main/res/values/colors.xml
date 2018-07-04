@@ -11,6 +11,7 @@
     <color name="hint_color">#708090</color>
     <color name="workout_exercise_background">#7fff9b</color>
     <color name="run_exercise_background_color">#7fff9b</color>
+    <color name="create_step_background">#7fff9b</color>
     <color name="workout_control_foreground">#776ED1</color>
     <color name="workout_control_background">#c1c1c1</color>
 </resources>

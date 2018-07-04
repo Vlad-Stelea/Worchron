@@ -13,4 +13,7 @@
     <dimen name="run_exercise_time_padding">8dp</dimen>
     <dimen name="run_exercise_time_text_size">20dp</dimen>
     <dimen name="run_exercise_height">100dp</dimen>
+
+    <dimen name="create_step_text_size">24sp</dimen>
+    <dimen name="create_step_num_steps_text_size">38sp</dimen>
 </resources>
