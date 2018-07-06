@@ -92,6 +92,10 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
 
 
     private void onRightButtonClicked(View view){
+        if(mExerciseState == CurrentExerciseState.PAUSED){
+            mExerciseState = CurrentExerciseState.RUNNING;
+            mCenterControlButton.setImageDrawable(getDrawable(R.drawable.ic_pause));
+        }
         mWorkoutDisplayer.startNextExercise();
     }
 
@@ -162,6 +166,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
         public void startNextExercise(){
             try {
                 //Remove the top view which is the exercise which just finished
+                ((RunExerciseView)getChildAt(0)).resetExercise();
                 removeViewAt(0);
                 int indexToAdd = mCurrentIndex + MAX_NUMBER_EXERCISES_DISPLAYED;
                 //Check to make sure that List does not go out of bounds

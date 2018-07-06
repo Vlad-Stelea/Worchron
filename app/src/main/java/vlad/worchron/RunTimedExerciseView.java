@@ -16,7 +16,7 @@ import vlad.backend.Exercises.TimedExercise;
 public class RunTimedExerciseView extends RunExerciseView {
     private TimedExercise mExercise;
     private TextView mTimeView, mNameView;
-    private CountDownTimer mCountDownTimer;
+    private RunTimedCountdownTimer mCountDownTimer;
     private long remainingTime;
 
 
@@ -68,18 +68,8 @@ public class RunTimedExerciseView extends RunExerciseView {
      */
     @Override
     public void startExercise() {
-        mCountDownTimer = new CountDownTimer(remainingTime, 100) {
-            @Override
-            public void onTick(long timeLeft) {
-                displayTime(timeLeft);
-                remainingTime = timeLeft;
-            }
-
-            @Override
-            public void onFinish() {
-                mCallback.onExerciseDone();
-            }
-        }.start();
+        mCountDownTimer = new RunTimedCountdownTimer(remainingTime, 100);
+        mCountDownTimer.startTimer();
     }
 
     /**
@@ -87,13 +77,13 @@ public class RunTimedExerciseView extends RunExerciseView {
      */
     @Override
     public void pauseExercise() {
-        mCountDownTimer.cancel();
+        mCountDownTimer.customCancel();
     }
 
     @Override
     public void resetExercise() {
+        mCountDownTimer.customCancel();
         remainingTime = mExercise.getTimeInMillis();
-        mCountDownTimer.cancel();
         displayTime(remainingTime);
     }
 
@@ -136,5 +126,38 @@ public class RunTimedExerciseView extends RunExerciseView {
         return toReturn;
     }
 
+    //<-------------------------Custom CountdownTimer------------------------->
+
+    private class RunTimedCountdownTimer extends CountDownTimer{
+
+        private boolean stillRunning;
+
+        RunTimedCountdownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            stillRunning = true;
+        }
+
+        public RunTimedCountdownTimer startTimer(){
+            start();
+            return this;
+        }
+
+        @Override
+        public void onTick(long timeLeft) {
+            remainingTime = timeLeft;
+            displayTime(remainingTime);
+        }
+
+        @Override
+        public void onFinish() {
+            if(stillRunning)
+                mCallback.onExerciseDone();
+        }
+
+        public void customCancel(){
+            stillRunning = false;
+            cancel();
+        }
+    }
 
 }
