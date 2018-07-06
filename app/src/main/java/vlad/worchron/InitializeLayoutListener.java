@@ -3,7 +3,9 @@ package vlad.worchron;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
@@ -13,8 +15,10 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
     private ViewGroup mMainLayout;
     private RunWorkoutActivity.WorkoutDisplayer mWorkoutDisplayer;
     private FinishInitializeCallback mCallback;
+    private final Context mContext;
     private static final int WORKOUT_DISPLAYER_ID = 100;
-
+    private static final int TOP_MARGIN = 5;
+    private static final int SIDE_MARGIN = 20;
     /**
      * Initialize this layout listener for one time use of organizing this view
      * @param mainLayout {@link ViewGroup}
@@ -23,10 +27,12 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
      */
     public InitializeLayoutListener(ViewGroup mainLayout,
                                     RunWorkoutActivity.WorkoutDisplayer workoutDisplayer,
-                                    FinishInitializeCallback callback){
+                                    FinishInitializeCallback callback,
+                                    Context context){
         mMainLayout = mainLayout;
         mWorkoutDisplayer = workoutDisplayer;
         mCallback = callback;
+        mContext = context;
     }
 
     @Override
@@ -43,15 +49,14 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
      * @param displayer {@link RunWorkoutActivity.WorkoutDisplayer} the displayer that needs to get sized
      */
     private void setWorkoutDisplayerDimensions(ViewGroup mainLayout, RunWorkoutActivity.WorkoutDisplayer displayer){
-        final int margins = 100;
-        int height = mainLayout.getHeight();
-        Log.d("TEST","Original Height is" + height);
-        //Loop through all the children and subtract from the total height to find how much space this displayer has
-        for(int i = 0; i < mainLayout.getChildCount(); i++){
-            height -= mainLayout.getChildAt(i).getHeight();
-        }
-        Log.d("TEST","Final Height is" + height);
-        displayer.getLayoutParams().height = 1731;//TODO change
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        final int topPxMargins = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                TOP_MARGIN,
+                displayMetrics);
+        int height = mainLayout.getHeight() -
+                mainLayout.getChildAt(0).getHeight() - //get height of TextView displaying name of workout
+                topPxMargins -1;
+        displayer.getLayoutParams().height = height;
         displayer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
@@ -61,8 +66,6 @@ public class InitializeLayoutListener implements ViewTreeObserver.OnGlobalLayout
      */
     private void positionWorkoutDisplayer(ConstraintLayout layout){
         mWorkoutDisplayer.setId(WORKOUT_DISPLAYER_ID);
-        final int TOP_MARGIN = 5;
-        final int SIDE_MARGIN = 20;
         final int BOTTOM_MARGIN = 5;
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(layout);

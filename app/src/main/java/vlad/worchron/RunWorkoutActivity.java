@@ -56,7 +56,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
         mainLayout = findViewById(R.id.activity_run_workout_layout);
         mWorkoutDisplayer = new WorkoutDisplayer(this, mExercises);
         mainLayout.addView(mWorkoutDisplayer);
-        InitializeLayoutListener listener = new InitializeLayoutListener(mainLayout, mWorkoutDisplayer, this);
+        InitializeLayoutListener listener = new InitializeLayoutListener(mainLayout, mWorkoutDisplayer, this,this);
         mainLayout.getViewTreeObserver()
                 .addOnGlobalLayoutListener(listener);
     }

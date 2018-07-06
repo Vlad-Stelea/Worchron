@@ -10,6 +10,7 @@
         android:gravity="center"
         android:text="Curl"
         android:textSize="@dimen/run_exercise_name_size"
+        android:textColor="@color/run_exercise_text_color"
         android:background="@color/run_exercise_background_color"/>
     <TextView
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
         android:id="@+id/view_run_rep_exercise_sets"
         android:textSize="@dimen/run_exercise_time_text_size"
         android:text="Sets:0"
+        android:textColor="@color/run_exercise_text_color"
         android:gravity="center"
         android:background="@color/run_exercise_background_color"/>
     <TextView
@@ -25,6 +27,7 @@
         android:id="@+id/view_run_rep_exercise_reps"
         android:textSize="@dimen/run_exercise_time_text_size"
         android:text="Reps:0"
+        android:textColor="@color/run_exercise_text_color"
         android:gravity="center"
         android:background="@color/run_exercise_background_color"/>
 
