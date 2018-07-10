@@ -1,9 +1,11 @@
 package vlad.worchron;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +14,16 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -28,11 +37,16 @@ import vlad.backend.Workout;
 
 public class MainActivity extends AppCompatActivity {
 
-    ViewPager viewPager;
-    ExercisesFragment mExercisesFragment;
-    WorkoutsFragment mWorkoutFragment;
     public static GeneralDAO<Workout,WorkoutPreview> WorkoutDAO;
     public static GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
+    private MainActivity thisActivity = this;
+
+    //Recycler View variables
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Workout> mWorkouts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +71,14 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
             }
         }
-        //Set up view pager for tabs
-        viewPager = (ViewPager)findViewById(R.id.main_view_pager);
-        PagerAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+        RecyclerViewInit();
 
-        TabLayout tabs = (TabLayout) findViewById(R.id.main_tab_layout);
-        tabs.setupWithViewPager(viewPager);
-        tabs.setTabTextColors(
-                getResources().getColor(R.color.textColor),
-                getResources().getColor(R.color.textColor)
-        );
 
     }
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity, menu);
-
         //TODO Add the logo of the app
         //getSupportActionBar().setIcon(R.drawable.ic_launcher_foreground);
         return super.onCreateOptionsMenu(menu);
@@ -83,64 +87,118 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
-            if(requestCode == getResources().getInteger(R.integer.create_exercise_code)){
-                String accessCode = getString(R.string.create_exercise_result);
-                SelectableExercise newExercise = (SelectableExercise) data.getSerializableExtra(accessCode);
-                ExerciseDAO.saveBackend(newExercise,this);
-                mExercisesFragment.addElement(newExercise);
-            } else if(requestCode == getResources().getInteger(R.integer.new_workout_request_code)){
+            if(requestCode == getResources().getInteger(R.integer.new_workout_request_code)){
                 //a completely new workout is returned
                 Workout workout = (Workout) data.getSerializableExtra(getString(R.string.edit_workout_result_code));
                 WorkoutDAO.saveBackend(workout,this);
-                mWorkoutFragment.addWorkout(workout);
+                //TODO insert the new workout into the list of workouts
             }else if(requestCode == getResources().getInteger(R.integer.edit_workout_request_code)){
                 //edit an existing exercise
                 Workout workout = (Workout) data.getSerializableExtra(getString(R.string.edit_workout_result_code));
                 int position = data.getIntExtra(getString(R.string.edit_workout_position_key), -1);
-                mWorkoutFragment.notifyWorkoutChanged(workout,position);
+                //TODO modify the list if it is changed
                 WorkoutDAO.saveBackend(workout,null);
             }
 
         }
     }
-    private class PageAdapter extends FragmentPagerAdapter{
-        private String [] tabTitles = {"Workouts", "Exercises"};
-        public PageAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        /**
-         * Return the Fragment associated with a specified position.
-         *
-         * @param position
-         */
-        @Override
-        public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    mWorkoutFragment = new WorkoutsFragment();
-                    return mWorkoutFragment;
-                case 1:
-                    mExercisesFragment = new ExercisesFragment();
-                    return mExercisesFragment;
-                    default:
-                        return null;
+    //<-----------------------------Init methods------------------------>
+    private void RecyclerViewInit(){
+        //set up the list of workouts
+        mWorkouts = WorkoutDAO.loadAllBackend();
 
-            }
-        }
+        //find the right recyclerview
+        mRecyclerView = findViewById(R.id.activity_main_workout_displayer);
 
-        /**
-         * Return the number of views available.
-         */
-        @Override
-        public int getCount() {
-            return tabTitles.length;
-        }
+        //Set up the layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        @Override
-        public CharSequence getPageTitle(int position){
-            return tabTitles[position];
-        }
+        //set up adaptor
+        mAdapter = new MyAdaptor(mWorkouts);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
+
+    //<--------------------RecyclerView stuff---------------------------------------->
+    private class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder>{
+
+        private List<Workout> mWorkouts;
+
+        public MyAdaptor(List<Workout> exercises){
+            mWorkouts = exercises;
+        }
+
+        @NonNull
+        @Override
+        public MyAdaptor.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            WorkoutPreviewView view = new WorkoutPreviewView(thisActivity);
+            return new MyViewHolder(view);
+        }
+        /**
+         * @param holder   The ViewHolder which should be updated to represent the contents of the
+         *                 item at the given position in the data set.
+         * @param position The position of the item within the adapter's data set.
+         */
+        @Override
+        public void onBindViewHolder(MyAdaptor.MyViewHolder holder, int position) {
+            WorkoutPreviewView view = (WorkoutPreviewView) holder.itemView;
+            view.setWorkout(mWorkouts.get(position));
+            view.setOnLongClickListener(v ->{
+                Intent intent = new Intent(thisActivity, EditWorkout.class);
+                String key = getString(R.string.edit_workout_workout_key);
+                int requestCode = getResources().getInteger(R.integer.edit_workout_request_code);
+                intent.putExtra(key,view.getCurrentWorkout());
+                intent.putExtra(getString(R.string.edit_workout_position_key), position);
+                thisActivity.startActivityForResult(intent, requestCode);
+                return true;
+            });
+        }
+
+        @Override
+        public int getItemCount(){
+            return mWorkouts.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder{
+
+            public MyViewHolder(View itemView) {
+                super(itemView);
+            }
+
+        }
+    }
+//<-------------------WorkoutPreviewView stuff--------------------------------------->
+
+    private static class WorkoutPreviewView extends LinearLayout {
+        private TextView nameText;
+        private Workout currentWorkout;
+        public WorkoutPreviewView(Context context) {
+            super(context);
+            LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            setLayoutParams(lp);
+            LayoutInflater.from(context).inflate(R.layout.workout_preview_view_layout,this);
+            setPadding(0,0,0,1);
+            nameText = this.findViewById(R.id.workout_preview_view_layout_workout_name);
+            setOnClickListener(view -> {
+                //Start the RunWorkoutActivity with the current workout passed in as a parameter
+                Intent intent = new Intent(getContext(),RunWorkoutActivity.class);
+                intent.putExtra(getContext().getString(R.string.run_workout_workout_key),
+                        currentWorkout);
+                getContext().startActivity(intent);
+            });
+        }
+
+        public void setWorkout(Workout newWorkout){
+            currentWorkout = newWorkout;
+            nameText.setText(currentWorkout.getName());
+        }
+
+        public Workout getCurrentWorkout(){
+            return currentWorkout;
+        }
+    }
+
+
 }
