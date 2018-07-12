@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static GeneralDAO<Workout,WorkoutPreview> WorkoutDAO;
     public static GeneralDAO<SelectableExercise, SelectableExercise> ExerciseDAO;
     private MainActivity thisActivity = this;
+    private ImageButton addWorkoutButton;
 
     //Recycler View variables
     private RecyclerView mRecyclerView;
@@ -72,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         RecyclerViewInit();
-
+        addWorkoutButton = findViewById(R.id.activity_main_add_workout_button);
+        addWorkoutButton.setOnClickListener(this::addNewWorkout);
 
     }
-    @SuppressLint("RestrictedApi")
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity, menu);
@@ -200,5 +205,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //<-------------------------ActionListener Events--------------------->
+    private void addNewWorkout(View view){
+        Intent intent = new Intent(this, EditWorkout.class);
+        startActivityForResult(intent, getResources().getInteger(R.integer.new_workout_request_code));
+    }
 
 }
