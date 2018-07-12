@@ -8,11 +8,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_select_exercise_recycler_view"
-        android:layout_width="368dp"
-        android:layout_height="462dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_select_exercise_add_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
@@ -21,15 +23,13 @@
         android:id="@+id/activity_select_exercise_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_add_circle_black_24dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:background="@drawable/ic_add_circle_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_select_exercise_recycler_view"
         app:srcCompat="@drawable/ic_add_circle_black_24dp" />
 
 </android.support.constraint.ConstraintLayout>
