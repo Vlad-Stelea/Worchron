@@ -150,7 +150,8 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
             calculateNumberOfWorkoutsDisplayed();
             for(int i = 0; i < MAX_NUMBER_EXERCISES_DISPLAYED; i++){
                 RunExerciseView view = mExercises.get(i).generateRunExerciseFragment(context, this);
-                this.addView(view);
+                    setUpViewMargins(view);
+                    this.addView(view);
             }
         }
 
@@ -172,8 +173,10 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
                 //Check to make sure that List does not go out of bounds
                 if (indexToAdd < mExercises.size()) {
                     //Add next view
-                    this.addView(mExercises.get(indexToAdd).generateRunExerciseFragment(getContext(),
-                            this));
+                    View view = mExercises.get(indexToAdd).generateRunExerciseFragment(getContext(),
+                            this);
+                    setUpViewMargins(view);
+                    this.addView(view);
                 }
                 //Increment the current index
                 mCurrentIndex++;
@@ -203,6 +206,7 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
                 //add the previous view to the top
                 RunExerciseView toAdd = mExercises.get(mCurrentIndex).
                         generateRunExerciseFragment(getContext(),this);
+                setUpViewMargins(toAdd);
                 addView(toAdd,0);
                 toAdd.startExercise();
             }
@@ -232,6 +236,17 @@ public class RunWorkoutActivity extends AppCompatActivity implements InitializeL
             RunExerciseView toRestart = (RunExerciseView) getChildAt(0);
             if(toRestart!= null)
                 toRestart.resetExercise();
+        }
+
+        /**
+         * Sets  up the view margins on a view which is about to be added to this layout
+         * @param toSetup the view that will be set up
+         */
+        private void setUpViewMargins(View toSetup){
+            final int TOP_MARGIN = 3;
+            MarginLayoutParams marginParams = new MarginLayoutParams(toSetup.getLayoutParams());
+            marginParams.topMargin = TOP_MARGIN;
+            toSetup.setLayoutParams(marginParams);
         }
     }
 

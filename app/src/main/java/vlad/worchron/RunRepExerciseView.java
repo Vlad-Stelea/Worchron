@@ -2,6 +2,7 @@ package vlad.worchron;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import vlad.backend.Exercises.RepExercise;
@@ -29,8 +30,16 @@ public class RunRepExerciseView extends RunExerciseView {
         updateSets(mSetsLeft);
         updateReps(mExercise.getReps());
         setOnClickListener(this::onTouch);
+        setUpDimensions();
     }
+    //<-------------------------Formatting methods-------------------------->
 
+    private void setUpDimensions(){
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, //width
+                ViewGroup.LayoutParams.WRAP_CONTENT);//height
+        setLayoutParams(params);
+    }
     /**
      * Lets the RunExerciseFragment know it should start doing it's thing
      */

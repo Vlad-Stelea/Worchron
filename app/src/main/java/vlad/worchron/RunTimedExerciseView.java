@@ -43,7 +43,6 @@ public class RunTimedExerciseView extends RunExerciseView {
         displayTime(mExercise.getTimeInMillis());
         //Set up the countdown timer
         setUpDimensions();
-        setUpSpacing();
     }
 
     //<-------------------------Formatting methods-------------------------->
@@ -55,12 +54,6 @@ public class RunTimedExerciseView extends RunExerciseView {
         setLayoutParams(params);
     }
 
-    private void setUpSpacing(){
-        final int TOP_MARGIN = 3;
-        MarginLayoutParams marginParams = new MarginLayoutParams(getLayoutParams());
-        marginParams.topMargin = TOP_MARGIN;
-        setLayoutParams(marginParams);
-    }
 
 //<----------------------Overriding methods---------------------------->
     /**
