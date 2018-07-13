@@ -13,6 +13,8 @@ import vlad.Previews.PreviewFactory;
  * Represents an exercise that can only be selected or created as a new type of exercise
  */
 public class SelectableExercise implements Serializable, Comparable<SelectableExercise>{
+    private static final long serialVersionUID = 1L;
+
     private String mName;
 
     public SelectableExercise(String name){

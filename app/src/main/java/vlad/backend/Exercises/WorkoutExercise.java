@@ -11,6 +11,8 @@ import vlad.worchron.RunExerciseView;
  * Class to represent an exercise once it's been set up for a workout
  */
 public abstract class WorkoutExercise implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     //The name of this exercise
     protected SelectableExercise mExercise;
 

@@ -13,6 +13,7 @@ import vlad.backend.Exercises.WorkoutExercise;
  * Represents a workout which is a collection of exercises
  */
 public class Workout implements Serializable, Comparable<Workout>{
+    private static final long serialVersionUID = 1L;
     //The name of the workout eg. Cardio, Leg day etc.
     private String mName;
     //The exercises contained in this workout
