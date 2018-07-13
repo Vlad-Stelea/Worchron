@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import vlad.worchron.EditExerciseDialog;
 import vlad.worchron.R;
@@ -19,6 +20,8 @@ import vlad.worchron.RunTimedExerciseView;
 public class TimedExercise extends WorkoutExercise {
     //How long this exercise should last
     private long mTime;
+    //What to be displayed if a zero time is entered
+    private static final String timeTooSmall = "Time entered cannot be 0. Please enter a new one.";
 
     /**
      * Constructs a Timed Exercise object
@@ -127,14 +130,28 @@ public class TimedExercise extends WorkoutExercise {
             .setNegativeButton("Cancel", ((dialogInterface, i) -> {
                 dismiss();
             }))
-            .setPositiveButton("OK", (dialog, id) ->{
-                toEdit.mTime = createTime(hours.getValue(),
-                        minutes.getValue(),
-                        seconds.getValue());
-                mCallback.sendEditedExercise();
+            .setPositiveButton("OK", null);
+            AlertDialog dialog = builder.create();
+
+            dialog.setOnShowListener(dialogInterface -> {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v ->{
+                    long time = createTime(hours.getValue(),
+                            minutes.getValue(),
+                            seconds.getValue());
+                    if(time != 0) {
+                        toEdit.mTime = time;
+                        mCallback.sendEditedExercise();
+                        dismiss();
+                    }else{
+                        Toast.makeText(getActivity(),
+                                timeTooSmall,
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                });
             });
 
-            return builder.create();
+            return dialog;
         }
 
         /**
