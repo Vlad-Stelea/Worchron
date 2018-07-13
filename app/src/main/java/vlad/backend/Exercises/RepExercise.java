@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import vlad.worchron.EditExerciseDialog;
 import vlad.worchron.R;
@@ -21,6 +22,8 @@ public class RepExercise extends WorkoutExercise {
     private int mSets;
     //How many reps for each set
     private int mReps;
+    //What to display if either reps or sets is 0
+    private static final String zeroSetOrRep = "Both the number of Sets and Reps must be greater than 0";
 
     /**
      * Constructs a RepExercises object
@@ -102,8 +105,26 @@ public class RepExercise extends WorkoutExercise {
                 toEdit.mSets = setPicker.getValue();
                 mCallback.sendEditedExercise();
             });
-            return builder.create();
+            AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(dialogInterface -> {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v ->{
+                    int reps = repPicker.getValue();
+                    int sets = setPicker.getValue();
+                    if(sets != 0
+                            && reps != 0){
+                        toEdit.mReps = reps;
+                        toEdit.mSets = sets;
+                        dismiss();
+                    }else{
+                        Toast.makeText(getActivity(),
+                                zeroSetOrRep,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+            return dialog;
         }
+
     }
 
 //<-----------------------Exercise Step stuff----------------------------->
