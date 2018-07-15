@@ -1,35 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/run_exercise_height"
-    android:background="@color/run_exercise_background_color">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view_run_rep_exercise_name"
-        android:gravity="center"
-        android:text="Curl"
-        android:textSize="@dimen/run_exercise_name_size"
-        android:textColor="@color/run_exercise_text_color"
-        android:background="@color/run_exercise_background_color"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view_run_rep_exercise_sets"
-        android:textSize="@dimen/run_exercise_time_text_size"
-        android:text="Sets:0"
-        android:textColor="@color/run_exercise_text_color"
-        android:gravity="center"
-        android:background="@color/run_exercise_background_color"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view_run_rep_exercise_reps"
-        android:textSize="@dimen/run_exercise_time_text_size"
-        android:text="Reps:0"
-        android:textColor="@color/run_exercise_text_color"
-        android:gravity="center"
-        android:background="@color/run_exercise_background_color"/>
+    android:background="@color/run_exercise_background_color"
+    android:orientation="vertical">
+
+    <!--<LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@color/run_exercise_background_color">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_run_rep_exercise_name"
+            android:gravity="center"
+            android:text="Curl"
+            android:textSize="@dimen/run_exercise_name_size"
+            android:textColor="@color/run_exercise_text_color"
+            android:background="@color/run_exercise_background_color"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_run_rep_exercise_sets"
+            android:textSize="@dimen/run_exercise_time_text_size"
+            android:text="Sets:0"
+            android:textColor="@color/run_exercise_text_color"
+            android:gravity="center"
+            android:background="@color/run_exercise_background_color"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_run_rep_exercise_reps"
+            android:textSize="@dimen/run_exercise_time_text_size"
+            android:text="Reps:0"
+            android:textColor="@color/run_exercise_text_color"
+            android:gravity="center"
+            android:background="@color/run_exercise_background_color"/>
+
+    </LinearLayout>
+    -->
 
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/view_run_rep_exercise_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:background="@color/run_exercise_background_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/view_run_rep_exercise_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/view_run_rep_exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/run_exercise_background_color"
+            android:gravity="center"
+            android:text="Curl"
+            android:textColor="@color/run_exercise_text_color"
+            android:textSize="@dimen/run_exercise_name_size" />
+
+        <TextView
+            android:id="@+id/view_run_rep_exercise_sets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/run_exercise_background_color"
+            android:gravity="center"
+            android:text="Sets:0"
+            android:textColor="@color/run_exercise_text_color"
+            android:textSize="@dimen/run_exercise_time_text_size" />
+
+        <TextView
+            android:id="@+id/view_run_rep_exercise_reps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/run_exercise_background_color"
+            android:gravity="center"
+            android:text="Reps:0"
+            android:textColor="@color/run_exercise_text_color"
+            android:textSize="@dimen/run_exercise_time_text_size" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

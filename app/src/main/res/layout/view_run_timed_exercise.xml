@@ -1,35 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/run_exercise_height"
-    android:orientation="vertical"
     android:background="@color/run_exercise_background_color"
     tools:context=".RunTimedExerciseView">
 
     <!-- Display the name of the exercise-->
     <TextView
         android:id="@+id/view_run_timed_exercise_name_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Run"
-        android:textSize="@dimen/run_exercise_name_size"
-        android:textColor="@color/run_exercise_text_color"
-        android:padding="@dimen/run_exercise_name_padding"
-        android:gravity="center_horizontal|center_vertical"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/run_exercise_background_color"
-        />
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="@dimen/run_exercise_name_padding"
+        android:text="Run"
+        android:textColor="@color/run_exercise_text_color"
+        android:textSize="@dimen/run_exercise_name_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Display the time left in the exercise -->
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/view_run_timed_exercise_time_view"
-    android:gravity="center_horizontal|center_vertical"
-    android:background="@color/run_exercise_background_color"
-    android:padding="@dimen/run_exercise_time_padding"
-    android:textSize="@dimen/run_exercise_time_text_size"
-    android:textColor="@color/run_exercise_text_color"
-    android:text="01:50:59"/>
+    <TextView
+        android:id="@+id/view_run_timed_exercise_time_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/run_exercise_background_color"
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="@dimen/run_exercise_time_padding"
+        android:text="01:50:59"
+        android:textColor="@color/run_exercise_text_color"
+        android:textSize="@dimen/run_exercise_time_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@color/action_bar_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -8,10 +8,10 @@
     <!-- run workout dimensions -->
     <dimen name="run_workout_name_size">40dp</dimen>
     <!-- RunExerciseDimensions -->
-    <dimen name="run_exercise_name_size">30dp</dimen>
+    <dimen name="run_exercise_name_size">24dp</dimen>
     <dimen name="run_exercise_name_padding">8dp</dimen>
     <dimen name="run_exercise_time_padding">8dp</dimen>
-    <dimen name="run_exercise_time_text_size">20dp</dimen>
+    <dimen name="run_exercise_time_text_size">18dp</dimen>
     <dimen name="run_exercise_height">100dp</dimen>
 
     <dimen name="create_step_text_size">24sp</dimen>
